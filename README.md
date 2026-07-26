@@ -4,3 +4,6 @@ AI-powered student guidance platform for career planning, scholarships, internsh
 ## Team Members
 
 - Ronit
+- Ritikarsh
+- Ananyaa
+- Rajdip
