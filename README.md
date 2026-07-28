@@ -1,8 +1,8 @@
-# Athena
+# Magellan
 
 ## Project Overview
 
-Athena is a career guidance platform designed to help students make informed decisions about their education and careers. Many students are unaware of the opportunities available to them, such as different career paths, scholarships, universities, competitions, and personalized learning roadmaps. Athena aims to provide all this information in one platform, along with personalized recommendations based on each user's interests, goals, and profile.
+Magellan is a career guidance platform designed to help students make informed decisions about their education and careers. Many students are unaware of the opportunities available to them, such as different career paths, scholarships, universities, competitions, and personalized learning roadmaps. Athena aims to provide all this information in one platform, along with personalized recommendations based on each user's interests, goals, and profile.
 
 ---
 
@@ -14,7 +14,7 @@ Many students struggle to choose the right career due to a lack of proper guidan
 
 ## Proposed Solution
 
-Athena provides a centralized and personalized platform that assists students throughout their career journey. After creating an account and completing their profile, users receive recommendations tailored to their interests, academic background, skills, and career aspirations.
+Magellan provides a centralized and personalized platform that assists students throughout their career journey. After creating an account and completing their profile, users receive recommendations tailored to their interests, academic background, skills, and career aspirations.
 
 The platform will help users:
 - Explore different career options.
