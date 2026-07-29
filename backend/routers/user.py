@@ -3,6 +3,8 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from schemas.user import UserRegister
 from schemas.auth import LoginRequest
+from schemas.password import ForgotPasswordRequest
+
 from utils.password import hash_password, verify_password
 from utils.jwt import create_access_token, verify_access_token
 
@@ -24,7 +26,10 @@ FAKE_USER = {
 @router.post("/register")
 def register(user: UserRegister):
     if user.email == FAKE_USER["email"]:
-        raise HTTPException(status_code=400, detail="Email already registered")
+        raise HTTPException(
+            status_code=400,
+            detail="Email already registered"
+        )
 
     return {
         "message": "User registered successfully",
@@ -39,10 +44,19 @@ def register(user: UserRegister):
 def login(request: LoginRequest):
 
     if request.email != FAKE_USER["email"]:
-        raise HTTPException(status_code=401, detail="Invalid email or password")
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid email or password"
+        )
 
-    if not verify_password(request.password, FAKE_USER["hashed_password"]):
-        raise HTTPException(status_code=401, detail="Invalid email or password")
+    if not verify_password(
+        request.password,
+        FAKE_USER["hashed_password"]
+    ):
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid email or password"
+        )
 
     access_token = create_access_token(
         data={"sub": request.email}
@@ -54,15 +68,41 @@ def login(request: LoginRequest):
     }
 
 
+@router.post("/forgot-password")
+def forgot_password(request: ForgotPasswordRequest):
+
+    if request.email != FAKE_USER["email"]:
+        return {
+            "message": "If the email exists, a reset link will be sent."
+        }
+
+    reset_token = create_access_token(
+        data={
+            "sub": request.email,
+            "purpose": "password_reset"
+        }
+    )
+
+    return {
+        "message": "Password reset token generated successfully.",
+        "reset_token": reset_token
+    }
+
+
 @router.get("/profile")
-def profile(credentials: HTTPAuthorizationCredentials = Depends(security)):
+def profile(
+    credentials: HTTPAuthorizationCredentials = Depends(security)
+):
 
     token = credentials.credentials
 
     payload = verify_access_token(token)
 
     if payload is None:
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid or expired token"
+        )
 
     return {
         "message": "Protected Profile",
