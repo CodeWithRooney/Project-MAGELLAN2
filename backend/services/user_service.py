@@ -1,42 +1,28 @@
-from fastapi import HTTPException
+from utils.password import hash_password, verify_password
 
-def create_user(user):
-    existing_emails = [
-        "admin@athena.com",
-        "test@gmail.com"
-    ]
+# Temporary fake user (will be replaced with PostgreSQL later)
+FAKE_USER = {
+    "email": "ronit@gmail.com",
+    "hashed_password": "$2b$12$WjC4YVLVLhcMGtfWLC.FCu8aSq1.7P4SJNaKb/Mug5RXy7WZNAKhm"
+}
 
-    if user.email in existing_emails:
-        raise HTTPException(
-    status_code=400,
-    detail="Email already exists."
-)
+
+def register_user(name: str, email: str, password: str):
+    hashed_password = hash_password(password)
 
     return {
-        "success": True,
-        "message": "Registration successful.",
-        "user": {
-            "name": user.name,
-            "email": user.email
-        }
+        "message": "User registered successfully",
+        "name": name,
+        "email": email,
+        "hashed_password": hashed_password
     }
 
-def login_user(user):
-    registered_user = {
-        "email": "ronit@gmail.com",
-        "password": "password123"
-    }
 
-    if (
-        user.email == registered_user["email"]
-        and user.password == registered_user["password"]
-    ):
-        return {
-            "success": True,
-            "message": "Login successful."
-        }
+def authenticate_user(email: str, password: str):
+    if email != FAKE_USER["email"]:
+        return None
 
-    raise HTTPException(
-    status_code=401,
-    detail="Invalid email or password."
-)
+    if not verify_password(password, FAKE_USER["hashed_password"]):
+        return None
+
+    return FAKE_USER
