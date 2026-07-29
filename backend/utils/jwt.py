@@ -34,3 +34,20 @@ def verify_access_token(token: str):
 
     except JWTError:
         return None
+
+
+def verify_reset_token(token: str):
+    try:
+        payload = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=[ALGORITHM]
+        )
+
+        if payload.get("purpose") != "password_reset":
+            return None
+
+        return payload
+
+    except JWTError:
+        return None

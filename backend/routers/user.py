@@ -3,10 +3,14 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from schemas.user import UserRegister
 from schemas.auth import LoginRequest
-from schemas.password import ForgotPasswordRequest
+from schemas.password import ForgotPasswordRequest, ResetPasswordRequest
 
 from utils.password import hash_password, verify_password
-from utils.jwt import create_access_token, verify_access_token
+from utils.jwt import (
+    create_access_token,
+    verify_access_token,
+    verify_reset_token,
+)
 
 router = APIRouter(
     prefix="/user",
@@ -86,6 +90,32 @@ def forgot_password(request: ForgotPasswordRequest):
     return {
         "message": "Password reset token generated successfully.",
         "reset_token": reset_token
+    }
+
+
+@router.post("/reset-password")
+def reset_password(request: ResetPasswordRequest):
+
+    payload = verify_reset_token(request.token)
+
+    if payload is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid or expired reset token"
+        )
+
+    email = payload.get("sub")
+
+    if email != FAKE_USER["email"]:
+        raise HTTPException(
+            status_code=404,
+            detail="User not found"
+        )
+
+    FAKE_USER["hashed_password"] = hash_password(request.new_password)
+
+    return {
+        "message": "Password reset successful."
     }
 
 
