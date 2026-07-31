@@ -11,6 +11,7 @@ from routers.exams import router as exams_router
 from routers.competitions import router as competitions_router
 from routers.benefits import router as benefits_router
 from routers.chat import router as chat_router
+from routers import chat
 
 app = FastAPI(
     title="Project Magellan API",
