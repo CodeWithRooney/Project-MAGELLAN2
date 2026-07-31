@@ -13,12 +13,22 @@ class UserLogin(BaseModel):
 
     # 🔥 Our NEW Form for the Student Profile
 class ProfileCreate(BaseModel):
+    # 1. Personal Profile
+    name: str
+    state: str
+    school_uni: str
     class_year: str
-    location: str
-    preferred_language: str
-    interests: str
-    career_goals: str
-    skills: str
-    target_country: str
+
+    # 2. Education
+    percentage: str
+    highest_subject: str
+    lowest_subject: str
+    favorite_subject: str
+    board_of_studying: str
+
+    # 3. Skills and Knowledge
+    technical_skills: str
+    soft_skills: str
+    hobbies: str
 
     

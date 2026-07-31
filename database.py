@@ -26,3 +26,11 @@ try:
     connection.close()
 except Exception as e:
     print(f"Error connecting to the database: {e}")
+
+    # Dependency to get the database session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

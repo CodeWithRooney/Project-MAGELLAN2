@@ -2,35 +2,47 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
 
-# Our existing User blueprint
+# ==========================================
+# 🔐 USER LOGIN/SIGNUP BLUEPRINT
+# ==========================================
 class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
+    name = Column(String)
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
 
-    # NEW: This acts as a bridge to link the User to their Profile
+    # This links the user to their profile
     profile = relationship("StudentProfile", back_populates="owner")
 
-# 🔥 Our NEW Blueprint for the Student Profile
+
+# ==========================================
+# 🎓 NEW FRONTEND STUDENT PROFILE BLUEPRINT
+# ==========================================
 class StudentProfile(Base):
     __tablename__ = "profiles"
 
     id = Column(Integer, primary_key=True, index=True)
-    
-    # This Foreign Key is the magic link that connects this profile to a specific user ID
     user_id = Column(Integer, ForeignKey("users.id"))
     
-    # The profile fields required from your Project Roadmap
-    class_year = Column(String)
-    location = Column(String) # For City/State/Country
-    preferred_language = Column(String)
-    interests = Column(String)
-    career_goals = Column(String)
-    skills = Column(String)
-    target_country = Column(String)
+    # 1. Personal Profile
+    name = Column(String) 
+    state = Column(String) # Dropdown
+    school_uni = Column(String)
+    class_year = Column(String) # Dropdown
 
-    # This acts as the bridge back to the User table
+    # 2. Education
+    percentage = Column(String) 
+    highest_subject = Column(String)
+    lowest_subject = Column(String)
+    favorite_subject = Column(String)
+    board_of_studying = Column(String) # Dropdown
+
+    # 3. Skills and Knowledge
+    technical_skills = Column(String) # Dropdown
+    soft_skills = Column(String) # Dropdown
+    hobbies = Column(String) # Dropdown
+
+    # This links the profile back to the user
     owner = relationship("User", back_populates="profile")

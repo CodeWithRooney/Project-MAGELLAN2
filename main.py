@@ -1,74 +1,71 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy.orm import Session
-from database import engine, SessionLocal
-import models
-import schemas
 import bcrypt
 
-# Tell the database to create all the tables
+# Import your local files
+import models
+import schemas
+from database import engine, get_db
+
+# This tells SQLAlchemy to create all tables in the database if they don't exist
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# --- MODERN BCRYPT SECURITY SETUP ---
-# Function 1: Scrambles the password using bcrypt directly
-def get_password_hash(password: str) -> str:
-    # Convert string to bytes, hash it, then decode back to string to store
-    pwd_bytes = password.encode('utf-8')
-    salt = bcrypt.gensalt()
-    hashed = bcrypt.hashpw(pwd_bytes, salt)
-    return hashed.decode('utf-8')
+from fastapi.middleware.cors import CORSMiddleware
 
-# Function 2: Verifies a plain password against the hashed string
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    plain_bytes = plain_password.encode('utf-8')
-    hashed_bytes = hashed_password.encode('utf-8')
-    return bcrypt.checkpw(plain_bytes, hashed_bytes)
-# ------------------------------------
+# Enable CORS so your React frontend can communicate with FastAPI
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins (perfect for development)
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows GET, POST, PUT, DELETE, etc.
+    allow_headers=["*"],  # Allows all headers
+)
 
-# Safe door to our database
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+# ==========================================
+# 🔐 USER AUTHENTICATION ROUTES
+# ==========================================
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to Project Athena Backend! 🚀"}
-
-# 🔥 Secure Sign-Up Route
 @app.post("/signup")
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    # Check if the user already exists
     existing_user = db.query(models.User).filter(models.User.email == user.email).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
         
-    # Scramble the password BEFORE saving it!
-    hashed_pw = get_password_hash(user.password)
+    # Hash the password for security
+    hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     
-    new_user = models.User(name=user.name, email=user.email, hashed_password=hashed_pw)
+    # Create and save the new user
+    new_user = models.User(name=user.name, email=user.email, hashed_password=hashed_password)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
     
-    return {"message": "Student signed up successfully!", "student_name": new_user.name}
+    return {"message": "User created successfully", "user_id": new_user.id}
 
-# 🔥 Secure Login Route
 @app.post("/login")
-def login_user(user: schemas.UserLogin, db: Session = Depends(get_db)):
+def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
+    # Find the user by email
     existing_user = db.query(models.User).filter(models.User.email == user.email).first()
-    
-    if not existing_user or not verify_password(user.password, existing_user.hashed_password):
-        raise HTTPException(status_code=401, detail="Invalid email or password")
+    if not existing_user:
+        raise HTTPException(status_code=404, detail="User not found")
         
-    return {"message": "Login successful!", "student_name": existing_user.name}
+    # Verify the password
+    if not bcrypt.checkpw(user.password.encode('utf-8'), existing_user.hashed_password.encode('utf-8')):
+        raise HTTPException(status_code=400, detail="Incorrect password")
+        
+    return {"message": "Login successful", "user_id": existing_user.id}
 
-# 🔥 New Student Profile Route
+
+# ==========================================
+# 🎓 STUDENT PROFILE ROUTES
+# ==========================================
+
+# 🔥 POST: Create a new profile
 @app.post("/profile/{user_id}")
 def create_profile(user_id: int, profile: schemas.ProfileCreate, db: Session = Depends(get_db)):
-    
     # 1. Verify the user actually exists in the database first
     existing_user = db.query(models.User).filter(models.User.id == user_id).first()
     if not existing_user:
@@ -79,16 +76,21 @@ def create_profile(user_id: int, profile: schemas.ProfileCreate, db: Session = D
     if existing_profile:
         raise HTTPException(status_code=400, detail="Profile already exists for this user")
         
-    # 3. Create the profile and link it using the user_id
+    # 3. Create the profile mapping to the new frontend fields
     new_profile = models.StudentProfile(
         user_id=user_id,
+        name=profile.name,
+        state=profile.state,
+        school_uni=profile.school_uni,
         class_year=profile.class_year,
-        location=profile.location,
-        preferred_language=profile.preferred_language,
-        interests=profile.interests,
-        career_goals=profile.career_goals,
-        skills=profile.skills,
-        target_country=profile.target_country
+        percentage=profile.percentage,
+        highest_subject=profile.highest_subject,
+        lowest_subject=profile.lowest_subject,
+        favorite_subject=profile.favorite_subject,
+        board_of_studying=profile.board_of_studying,
+        technical_skills=profile.technical_skills,
+        soft_skills=profile.soft_skills,
+        hobbies=profile.hobbies
     )
     
     # 4. Save to database
@@ -98,10 +100,10 @@ def create_profile(user_id: int, profile: schemas.ProfileCreate, db: Session = D
     
     return {"message": "Profile created successfully!", "student_name": existing_user.name}
 
-# 🔥 New Route to Read a Student's Profile
+
+# 🔥 GET: Read a student's profile
 @app.get("/profile/{user_id}")
 def get_profile(user_id: int, db: Session = Depends(get_db)):
-    
     # 1. Ask the database to find the profile with this exact user_id
     profile = db.query(models.StudentProfile).filter(models.StudentProfile.user_id == user_id).first()
     
@@ -109,15 +111,13 @@ def get_profile(user_id: int, db: Session = Depends(get_db)):
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
         
-    # 3. If it is found, hand the profile data over to the frontend!
+    # 3. If it is found, hand the profile data over to the frontend
     return profile
 
 
-
-# 🔥 New Route to Update an Existing Profile
+# 🔥 PUT: Update an existing profile
 @app.put("/profile/{user_id}")
 def update_profile(user_id: int, profile_update: schemas.ProfileCreate, db: Session = Depends(get_db)):
-    
     # 1. Ask the database to find the existing profile
     existing_profile = db.query(models.StudentProfile).filter(models.StudentProfile.user_id == user_id).first()
     
@@ -125,17 +125,96 @@ def update_profile(user_id: int, profile_update: schemas.ProfileCreate, db: Sess
     if not existing_profile:
         raise HTTPException(status_code=404, detail="Profile not found. Please create one first.")
         
-    # 3. If the profile exists, update all the fields with the new data
+    # 3. If the profile exists, update all the new frontend fields
+    existing_profile.name = profile_update.name
+    existing_profile.state = profile_update.state
+    existing_profile.school_uni = profile_update.school_uni
     existing_profile.class_year = profile_update.class_year
-    existing_profile.location = profile_update.location
-    existing_profile.preferred_language = profile_update.preferred_language
-    existing_profile.interests = profile_update.interests
-    existing_profile.career_goals = profile_update.career_goals
-    existing_profile.skills = profile_update.skills
-    existing_profile.target_country = profile_update.target_country
+    existing_profile.percentage = profile_update.percentage
+    existing_profile.highest_subject = profile_update.highest_subject
+    existing_profile.lowest_subject = profile_update.lowest_subject
+    existing_profile.favorite_subject = profile_update.favorite_subject
+    existing_profile.board_of_studying = profile_update.board_of_studying
+    existing_profile.technical_skills = profile_update.technical_skills
+    existing_profile.soft_skills = profile_update.soft_skills
+    existing_profile.hobbies = profile_update.hobbies
     
     # 4. Save (commit) the new changes to the database
     db.commit()
     db.refresh(existing_profile)
     
     return {"message": "Profile updated successfully!"}
+
+
+
+# ==========================================
+# 🚀 OPPORTUNITIES ROUTE (PROTECTED)
+# ==========================================
+
+@app.get("/opportunities/{user_id}")
+def get_opportunities(user_id: int, db: Session = Depends(get_db)):
+    # 1. Security Check: Verify the user exists in the database
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        # If they haven't signed up, kick them out with an error
+        raise HTTPException(status_code=403, detail="Access Denied: Please sign up to view exclusive opportunities.")
+        
+    # 2. If they are signed up, serve the Opportunities data
+    opportunities_data = [
+        {
+            "id": 1,
+            "title": "Government Schemes & Scholarships",
+            "purpose": "Help students find financial support and government benefits.",
+            "includes": [
+                "Central and state government scholarships",
+                "Merit-based scholarships",
+                "Financial assistance schemes",
+                "Eligibility criteria",
+                "Last date to apply",
+                "Direct application links"
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Upcoming Exams & Olympiads",
+            "purpose": "Inform students about important exams they can participate in to improve their profile and skills.",
+            "includes": [
+                "Olympiads (Science, Maths, English, Cyber, etc.)",
+                "NTSE (if conducted in their state or similar talent exams)",
+                "NSTSE",
+                "SOF Olympiads",
+                "Spell Bee",
+                "Talent search exams",
+                "Registration dates, syllabus, and exam dates"
+            ]
+        },
+        {
+            "id": 3,
+            "title": "Competitions & Challenges 🌟",
+            "purpose": "Encourage students to build skills beyond academics.",
+            "includes": [
+                "Coding competitions",
+                "Science exhibitions",
+                "Quiz competitions",
+                "Debate competitions",
+                "Essay writing contests",
+                "Innovation challenges",
+                "Robotics competitions"
+            ],
+            "benefit": "Students gain certificates, prizes, confidence, and stronger profiles for future admissions."
+        },
+        {
+            "id": 4,
+            "title": "🎁 Freebies & Student Benefits ⭐⭐⭐⭐⭐",
+            "purpose": "Students love free resources and keep coming back.",
+            "includes": [
+                "Free courses",
+                "Free certifications",
+                "Student discounts",
+                "Free software (GitHub Student Pack, Canva Education, etc.)",
+                "Free e-books"
+            ]
+        }
+    ]
+    
+    return opportunities_data
