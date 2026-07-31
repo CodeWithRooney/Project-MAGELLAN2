@@ -90,7 +90,8 @@ def create_profile(user_id: int, profile: schemas.ProfileCreate, db: Session = D
         board_of_studying=profile.board_of_studying,
         technical_skills=profile.technical_skills,
         soft_skills=profile.soft_skills,
-        hobbies=profile.hobbies
+        hobbies=profile.hobbies,
+        career_goal_decided=profile.career_goal_decided
     )
     
     # 4. Save to database
@@ -146,75 +147,33 @@ def update_profile(user_id: int, profile_update: schemas.ProfileCreate, db: Sess
     return {"message": "Profile updated successfully!"}
 
 
-
 # ==========================================
-# 🚀 OPPORTUNITIES ROUTE (PROTECTED)
+# 🌟 OPPORTUNITIES ROUTES
 # ==========================================
 
+# 🔥 POST: For you to easily add new opportunities to the database
+@app.post("/opportunities")
+def create_opportunity(opp: schemas.OpportunityCreate, db: Session = Depends(get_db)):
+    new_opp = models.Opportunity(
+        title=opp.title,
+        purpose=opp.purpose,
+        includes=opp.includes,
+        benefit=opp.benefit
+    )
+    db.add(new_opp)
+    db.commit()
+    return {"message": f"Successfully added '{opp.title}' to the database!"}
+
+
+# 🔥 GET: For the frontend to fetch the data (Protected)
 @app.get("/opportunities/{user_id}")
 def get_opportunities(user_id: int, db: Session = Depends(get_db)):
-    # 1. Security Check: Verify the user exists in the database
+    # 1. Security Check
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if not user:
-        # If they haven't signed up, kick them out with an error
         raise HTTPException(status_code=403, detail="Access Denied: Please sign up to view exclusive opportunities.")
         
-    # 2. If they are signed up, serve the Opportunities data
-    opportunities_data = [
-        {
-            "id": 1,
-            "title": "Government Schemes & Scholarships",
-            "purpose": "Help students find financial support and government benefits.",
-            "includes": [
-                "Central and state government scholarships",
-                "Merit-based scholarships",
-                "Financial assistance schemes",
-                "Eligibility criteria",
-                "Last date to apply",
-                "Direct application links"
-            ]
-        },
-        {
-            "id": 2,
-            "title": "Upcoming Exams & Olympiads",
-            "purpose": "Inform students about important exams they can participate in to improve their profile and skills.",
-            "includes": [
-                "Olympiads (Science, Maths, English, Cyber, etc.)",
-                "NTSE (if conducted in their state or similar talent exams)",
-                "NSTSE",
-                "SOF Olympiads",
-                "Spell Bee",
-                "Talent search exams",
-                "Registration dates, syllabus, and exam dates"
-            ]
-        },
-        {
-            "id": 3,
-            "title": "Competitions & Challenges 🌟",
-            "purpose": "Encourage students to build skills beyond academics.",
-            "includes": [
-                "Coding competitions",
-                "Science exhibitions",
-                "Quiz competitions",
-                "Debate competitions",
-                "Essay writing contests",
-                "Innovation challenges",
-                "Robotics competitions"
-            ],
-            "benefit": "Students gain certificates, prizes, confidence, and stronger profiles for future admissions."
-        },
-        {
-            "id": 4,
-            "title": "🎁 Freebies & Student Benefits ⭐⭐⭐⭐⭐",
-            "purpose": "Students love free resources and keep coming back.",
-            "includes": [
-                "Free courses",
-                "Free certifications",
-                "Student discounts",
-                "Free software (GitHub Student Pack, Canva Education, etc.)",
-                "Free e-books"
-            ]
-        }
-    ]
+    # 2. Fetch all opportunities directly from the PostgreSQL database!
+    opportunities_data = db.query(models.Opportunity).all()
     
     return opportunities_data

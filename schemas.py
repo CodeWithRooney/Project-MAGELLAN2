@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List, Optional
 
 # This acts like a signup form. It tells FastAPI exactly what info to expect from the user.
 class UserCreate(BaseModel):
@@ -30,5 +31,11 @@ class ProfileCreate(BaseModel):
     technical_skills: str
     soft_skills: str
     hobbies: str
+    career_goal_decided: str
 
+class OpportunityCreate(BaseModel):
+    title: str
+    purpose: str
+    includes: List[str]
+    benefit: Optional[str] = None
     
