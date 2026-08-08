@@ -1,31 +1,66 @@
 from fastapi import APIRouter
-from utils.jwt import create_access_token
 
-router = APIRouter(tags=["Home"])
+router = APIRouter(
+    tags=["Home"],
+)
 
 
-@router.get("/")
-def home():
+@router.get(
+    "/",
+    summary="Welcome endpoint",
+)
+def home() -> dict:
+    """
+    Returns basic information about
+    the Project Magellan API.
+    """
+
     return {
-        "message": "Welcome to Project Magellan Backend!"
+        "application": "Project Magellan",
+        "message": "Welcome to the Magellan API.",
+        "status": "Running",
+        "version": "1.0.0",
     }
 
 
-@router.get("/about")
-def about():
+@router.get(
+    "/health",
+    summary="Health check",
+)
+def health() -> dict:
+    """
+    Returns the current health status
+    of the API.
+    """
+
     return {
-        "project": "Project Magellan",
-        "description": "An AI-powered career guidance platform that helps students discover suitable career paths based on their interests, skills, and goals."
+        "status": "healthy",
     }
 
 
-@router.get("/test-token")
-def test_token():
-    token = create_access_token(
-        data={"sub": "test@example.com"}
-    )
+@router.get(
+    "/about",
+    summary="About Project Magellan",
+)
+def about() -> dict:
+    """
+    Returns information about
+    Project Magellan.
+    """
 
     return {
-        "access_token": token,
-        "token_type": "bearer"
+        "project": "Magellan",
+        "description": (
+            "AI-powered career guidance platform "
+            "for students."
+        ),
+        "features": [
+            "Career Guidance",
+            "Scholarships",
+            "Competitions",
+            "Student Benefits",
+            "Learning Resources",
+            "Exams",
+            "AI Chat Assistant",
+        ],
     }

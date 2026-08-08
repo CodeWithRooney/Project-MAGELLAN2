@@ -1,140 +1,153 @@
-from fastapi import APIRouter, HTTPException, Depends
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-
-from schemas.user import UserRegister
-from schemas.auth import LoginRequest
-from schemas.password import ForgotPasswordRequest, ResetPasswordRequest
-
-from utils.password import hash_password, verify_password
-from utils.jwt import (
-    create_access_token,
-    verify_access_token,
-    verify_reset_token,
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+    status,
 )
+from sqlalchemy.orm import Session
+
+from database import get_db
+from dependencies.auth import get_current_user
+
+from exceptions import (
+    ProfileAlreadyExistsError,
+    ProfileNotFoundError,
+    UserNotFoundError,
+)
+
+from models import User
+
+from schemas import (
+    StudentProfileCreate,
+    StudentProfileResponse,
+)
+
+from services.user_service import (
+    create_profile,
+    delete_profile,
+    get_profile,
+    update_profile,
+)
+
 
 router = APIRouter(
     prefix="/user",
-    tags=["User"]
+    tags=["User Profile"],
 )
 
-security = HTTPBearer()
 
-# Temporary fake user (will be replaced with PostgreSQL later)
-FAKE_USER = {
-    "name": "Test User",
-    "email": "test@example.com",
-    "hashed_password": hash_password("password123")
-}
+@router.post(
+    "/profile",
+    response_model=StudentProfileResponse,
+    status_code=status.HTTP_201_CREATED,
+    summary="Create student profile",
+)
+def create_user_profile(
+    profile: StudentProfileCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> StudentProfileResponse:
+    """
+    Creates the student profile of the logged-in user.
+    """
 
-
-@router.post("/register")
-def register(user: UserRegister):
-    if user.email == FAKE_USER["email"]:
-        raise HTTPException(
-            status_code=400,
-            detail="Email already registered"
+    try:
+        return create_profile(
+            user_id=current_user.id,
+            profile=profile,
+            db=db,
         )
 
-    return {
-        "message": "User registered successfully",
-        "user": {
-            "name": user.name,
-            "email": user.email
-        }
-    }
-
-
-@router.post("/login")
-def login(request: LoginRequest):
-
-    if request.email != FAKE_USER["email"]:
+    except UserNotFoundError as e:
         raise HTTPException(
-            status_code=401,
-            detail="Invalid email or password"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(e),
         )
 
-    if not verify_password(
-        request.password,
-        FAKE_USER["hashed_password"]
-    ):
+    except ProfileAlreadyExistsError as e:
         raise HTTPException(
-            status_code=401,
-            detail="Invalid email or password"
+            status_code=status.HTTP_409_CONFLICT,
+            detail=str(e),
         )
 
-    access_token = create_access_token(
-        data={"sub": request.email}
-    )
 
-    return {
-        "access_token": access_token,
-        "token_type": "bearer"
-    }
+@router.get(
+    "/profile",
+    response_model=StudentProfileResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Get student profile",
+)
+def get_user_profile(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> StudentProfileResponse:
+    """
+    Returns the logged-in user's profile.
+    """
 
-
-@router.post("/forgot-password")
-def forgot_password(request: ForgotPasswordRequest):
-
-    if request.email != FAKE_USER["email"]:
-        return {
-            "message": "If the email exists, a reset link will be sent."
-        }
-
-    reset_token = create_access_token(
-        data={
-            "sub": request.email,
-            "purpose": "password_reset"
-        }
-    )
-
-    return {
-        "message": "Password reset token generated successfully.",
-        "reset_token": reset_token
-    }
-
-
-@router.post("/reset-password")
-def reset_password(request: ResetPasswordRequest):
-
-    payload = verify_reset_token(request.token)
-
-    if payload is None:
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid or expired reset token"
+    try:
+        return get_profile(
+            user_id=current_user.id,
+            db=db,
         )
 
-    email = payload.get("sub")
-
-    if email != FAKE_USER["email"]:
+    except ProfileNotFoundError as e:
         raise HTTPException(
-            status_code=404,
-            detail="User not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(e),
         )
 
-    FAKE_USER["hashed_password"] = hash_password(request.new_password)
 
-    return {
-        "message": "Password reset successful."
-    }
+@router.put(
+    "/profile",
+    response_model=StudentProfileResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Update student profile",
+)
+def update_user_profile(
+    profile: StudentProfileCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> StudentProfileResponse:
+    """
+    Updates the logged-in user's profile.
+    """
 
-
-@router.get("/profile")
-def profile(
-    credentials: HTTPAuthorizationCredentials = Depends(security)
-):
-
-    token = credentials.credentials
-
-    payload = verify_access_token(token)
-
-    if payload is None:
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid or expired token"
+    try:
+        return update_profile(
+            user_id=current_user.id,
+            profile_update=profile,
+            db=db,
         )
 
-    return {
-        "message": "Protected Profile",
-        "email": payload.get("sub")
-    }
+    except ProfileNotFoundError as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(e),
+        )
+
+
+@router.delete(
+    "/profile",
+    status_code=status.HTTP_200_OK,
+    summary="Delete student profile",
+)
+def delete_user_profile(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> dict:
+    """
+    Deletes the logged-in user's profile.
+    """
+
+    try:
+        return delete_profile(
+            user_id=current_user.id,
+            db=db,
+        )
+
+    except ProfileNotFoundError as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(e),
+        )

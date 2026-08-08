@@ -1,34 +1,80 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
+
 from jose import JWTError, jwt
 
-SECRET_KEY = "magellan_super_secret_key"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+from config import settings
 
 
-def create_access_token(data: dict):
+SECRET_KEY = settings.SECRET_KEY
+ALGORITHM = settings.ALGORITHM
+ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
+
+
+def create_access_token(data: dict) -> str:
+    """
+    Create a JWT access token.
+    """
+
     to_encode = data.copy()
 
-    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-
-    to_encode.update({"exp": expire})
-
-    encoded_jwt = jwt.encode(
-        to_encode,
-        SECRET_KEY,
-        algorithm=ALGORITHM
+    expire = datetime.now(timezone.utc) + timedelta(
+        minutes=ACCESS_TOKEN_EXPIRE_MINUTES
     )
 
-    return encoded_jwt
+    to_encode.update(
+        {
+            "exp": expire,
+            "type": "access",
+        }
+    )
+
+    return jwt.encode(
+        to_encode,
+        SECRET_KEY,
+        algorithm=ALGORITHM,
+    )
 
 
-def verify_access_token(token: str):
+def create_reset_token(data: dict) -> str:
+    """
+    Create a password reset token.
+    """
+
+    to_encode = data.copy()
+
+    expire = datetime.now(timezone.utc) + timedelta(
+        minutes=30
+    )
+
+    to_encode.update(
+        {
+            "exp": expire,
+            "type": "reset",
+            "purpose": "password_reset",
+        }
+    )
+
+    return jwt.encode(
+        to_encode,
+        SECRET_KEY,
+        algorithm=ALGORITHM,
+    )
+
+
+def verify_access_token(token: str) -> dict | None:
+    """
+    Verify an access token.
+    """
+
     try:
         payload = jwt.decode(
             token,
             SECRET_KEY,
-            algorithms=[ALGORITHM]
+            algorithms=[ALGORITHM],
         )
+
+        if payload.get("type") != "access":
+            return None
 
         return payload
 
@@ -36,13 +82,20 @@ def verify_access_token(token: str):
         return None
 
 
-def verify_reset_token(token: str):
+def verify_reset_token(token: str) -> dict | None:
+    """
+    Verify a password reset token.
+    """
+
     try:
         payload = jwt.decode(
             token,
             SECRET_KEY,
-            algorithms=[ALGORITHM]
+            algorithms=[ALGORITHM],
         )
+
+        if payload.get("type") != "reset":
+            return None
 
         if payload.get("purpose") != "password_reset":
             return None

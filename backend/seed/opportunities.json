@@ -1,0 +1,106 @@
+[
+    {
+        "category": "Scholarship",
+        "title": "INSPIRE Scholarship",
+        "provider": "Department of Science and Technology",
+        "description": "Scholarship for students pursuing science courses.",
+        "eligibility": "Students with excellent academic performance in science.",
+        "official_link": "https://online-inspire.gov.in/",
+        "deadline": "2026-10-31",
+        "mode": "Online",
+        "location": "India",
+        "is_free": true,
+        "tags": [
+            "Science",
+            "Undergraduate"
+        ],
+        "includes": [
+            "Annual stipend",
+            "Research opportunities"
+        ],
+        "benefit": "₹80,000 per year"
+    },
+    {
+        "category": "Competition",
+        "title": "Google Solution Challenge",
+        "provider": "Google",
+        "description": "Global competition for student developers.",
+        "eligibility": "University students",
+        "official_link": "https://developers.google.com/community/gdsc-solution-challenge",
+        "deadline": "2026-03-31",
+        "mode": "Online",
+        "location": "Global",
+        "is_free": true,
+        "tags": [
+            "Hackathon",
+            "Development"
+        ],
+        "includes": [
+            "Mentorship",
+            "Certification"
+        ],
+        "benefit": "Global recognition"
+    },
+    {
+        "category": "Exam",
+        "title": "GATE",
+        "provider": "IISc & IITs",
+        "description": "Graduate Aptitude Test in Engineering.",
+        "eligibility": "Final-year or graduate engineering students.",
+        "official_link": "https://gate2026.iisc.ac.in/",
+        "deadline": "2026-09-30",
+        "mode": "Online",
+        "location": "India",
+        "is_free": false,
+        "tags": [
+            "Engineering",
+            "Higher Studies"
+        ],
+        "includes": [
+            "Score Card"
+        ],
+        "benefit": "Admission to M.Tech and PSU recruitment"
+    },
+    {
+        "category": "Benefit",
+        "title": "National Digital Library",
+        "provider": "Government of India",
+        "description": "Free educational resources for students.",
+        "eligibility": "Anyone",
+        "official_link": "https://ndl.iitkgp.ac.in/",
+        "deadline": null,
+        "mode": "Online",
+        "location": "India",
+        "is_free": true,
+        "tags": [
+            "Books",
+            "Learning"
+        ],
+        "includes": [
+            "Books",
+            "Videos"
+        ],
+        "benefit": "Free learning resources"
+    },
+    {
+        "category": "Resource",
+        "title": "freeCodeCamp",
+        "provider": "freeCodeCamp",
+        "description": "Free programming courses.",
+        "eligibility": "Anyone",
+        "official_link": "https://www.freecodecamp.org/",
+        "deadline": null,
+        "mode": "Online",
+        "location": "Global",
+        "is_free": true,
+        "tags": [
+            "Programming",
+            "Python"
+        ],
+        "includes": [
+            "Courses",
+            "Projects"
+        ],
+        "benefit": "Free certification"
+    }
+]

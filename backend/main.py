@@ -1,40 +1,96 @@
+import models
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers.home import router as home_router
-from routers.user import router as user_router
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 
-from routers.resources import router as resources_router
-from routers.scholarships import router as scholarships_router
-from routers.schemes import router as schemes_router
-from routers.exams import router as exams_router
-from routers.competitions import router as competitions_router
-from routers.benefits import router as benefits_router
-from routers.chat import router as chat_router
-from routers import chat
+from routers.opportunities import search
+
+from exceptions import (
+    UserAlreadyExistsError,
+    UserNotFoundError,
+    InvalidPasswordError,
+    ProfileAlreadyExistsError,
+    ProfileNotFoundError,
+    OpportunityNotFoundError,
+    ChatGenerationError,
+)
+
+app = FastAPI()
+
+from database import (
+    Base,
+    engine,
+)
+
+from routers import (
+    auth_router,
+    user_router,
+    chat_router,
+    home_router,
+    funding_router,
+    competition_router,
+    exam_router,
+    benefit_router,
+    resource_router,
+)
+
+# Create all database tables
+#Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Project Magellan API",
-    description="Backend API for Project Magellan",
-    version="1.0.0"
+    description="AI-powered career guidance platform for students.",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc",
 )
 
 # CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Change this to your frontend URL in production
+    allow_origins=[
+        "*",
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=[
+        "*",
+    ],
+    allow_headers=[
+        "*",
+    ],
 )
 
-# Include Routers
+# Home
 app.include_router(home_router)
+
+# Authentication
+app.include_router(auth_router)
+
+# User
 app.include_router(user_router)
-app.include_router(resources_router)
-app.include_router(scholarships_router)
-app.include_router(schemes_router)
-app.include_router(exams_router)
-app.include_router(competitions_router)
-app.include_router(benefits_router)
+
+# AI Chat
 app.include_router(chat_router)
+
+# Opportunities
+app.include_router(funding_router)
+app.include_router(competition_router)
+app.include_router(exam_router)
+app.include_router(benefit_router)
+app.include_router(resource_router)
+app.include_router(search.router)
+
+@app.exception_handler(OpportunityNotFoundError)
+async def opportunity_not_found_handler(
+    request: Request,
+    exc: OpportunityNotFoundError,
+):
+    return JSONResponse(
+        status_code=404,
+        content={
+            "detail": str(exc),
+        },
+    )

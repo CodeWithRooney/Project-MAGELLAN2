@@ -1,26 +1,36 @@
-import os
-
-from dotenv import load_dotenv
 from google import genai
 
-# Load variables from .env
-load_dotenv()
-
-# Read API Key
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
-# Create Gemini client
-client = genai.Client(api_key=GEMINI_API_KEY)
+from config import settings
 
 
-def ask_gemini(prompt: str) -> str:
+client = genai.Client(
+    api_key=settings.GEMINI_API_KEY,
+)
+
+
+def generate_response(prompt: str) -> str:
     """
-    Send a prompt to Gemini and return the generated text.
+    Sends the prompt to Gemini
+    and returns the generated response.
     """
 
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=prompt,
-    )
+    try:
+        response = client.models.generate_content(
+            model=settings.GEMINI_MODEL,
+            contents=prompt,
+        )
 
-    return response.text
+        if (
+            response.text is None
+            or not response.text.strip()
+        ):
+            raise Exception(
+                "Gemini returned an empty response."
+            )
+
+        return response.text.strip()
+
+    except Exception as e:
+        raise Exception(
+            f"Gemini API Error: {str(e)}"
+        )
