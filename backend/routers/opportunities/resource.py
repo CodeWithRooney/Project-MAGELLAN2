@@ -6,6 +6,8 @@ from fastapi import (
 from sqlalchemy.orm import Session
 
 from database import get_db
+from dependencies.auth import get_current_admin
+from models import User
 
 from schemas.opportunities import (
     ResourceCreate,
@@ -36,6 +38,7 @@ router = APIRouter(
 def create(
     resource: ResourceCreate,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> ResourceResponse:
     """
     Creates a new learning resource.
@@ -93,6 +96,7 @@ def update(
     resource_id: int,
     resource: ResourceCreate,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> ResourceResponse:
     """
     Updates an existing learning resource.
@@ -113,6 +117,7 @@ def update(
 def delete(
     resource_id: int,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> dict:
     """
     Deletes a learning resource.

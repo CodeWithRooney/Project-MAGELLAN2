@@ -6,6 +6,8 @@ from fastapi import (
 from sqlalchemy.orm import Session
 
 from database import get_db
+from dependencies.auth import get_current_admin
+from models import User
 
 from schemas.opportunities import (
     CompetitionCreate,
@@ -36,6 +38,7 @@ router = APIRouter(
 def create(
     competition: CompetitionCreate,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> CompetitionResponse:
     """
     Creates a new competition opportunity.
@@ -93,6 +96,7 @@ def update(
     competition_id: int,
     competition: CompetitionCreate,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> CompetitionResponse:
     """
     Updates an existing competition.
@@ -113,6 +117,7 @@ def update(
 def delete(
     competition_id: int,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> dict:
     """
     Deletes a competition.

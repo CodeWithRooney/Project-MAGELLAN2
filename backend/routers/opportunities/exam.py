@@ -6,6 +6,8 @@ from fastapi import (
 from sqlalchemy.orm import Session
 
 from database import get_db
+from dependencies.auth import get_current_admin
+from models import User
 
 from schemas.opportunities import (
     ExamCreate,
@@ -36,6 +38,7 @@ router = APIRouter(
 def create(
     exam: ExamCreate,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> ExamResponse:
     """
     Creates a new exam opportunity.
@@ -93,6 +96,7 @@ def update(
     exam_id: int,
     exam: ExamCreate,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> ExamResponse:
     """
     Updates an existing exam.
@@ -113,6 +117,7 @@ def update(
 def delete(
     exam_id: int,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> dict:
     """
     Deletes an exam.

@@ -25,6 +25,7 @@ class ChatHistory(Base):
         Integer,
         ForeignKey("users.id"),
         nullable=False,
+        index=True,
     )
 
     role = Column(

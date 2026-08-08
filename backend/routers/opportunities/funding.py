@@ -5,6 +5,9 @@ from fastapi import (
 )
 from sqlalchemy.orm import Session
 
+from dependencies.auth import get_current_admin
+from models import User
+
 from database import get_db
 
 from schemas import (
@@ -36,6 +39,7 @@ router = APIRouter(
 def create(
     funding: FundingCreate,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> FundingResponse:
     """
     Creates a new funding opportunity.
@@ -93,6 +97,7 @@ def update(
     funding_id: int,
     funding: FundingCreate,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> FundingResponse:
     """
     Updates an existing funding opportunity.
@@ -113,6 +118,7 @@ def update(
 def delete(
     funding_id: int,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> dict:
     """
     Deletes a funding opportunity.

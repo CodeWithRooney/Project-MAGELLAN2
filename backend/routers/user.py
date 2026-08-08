@@ -7,7 +7,10 @@ from fastapi import (
 from sqlalchemy.orm import Session
 
 from database import get_db
-from dependencies.auth import get_current_user
+from dependencies.auth import (
+    get_current_admin,
+    get_current_user,
+)
 
 from exceptions import (
     ProfileAlreadyExistsError,
@@ -151,3 +154,16 @@ def delete_user_profile(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=str(e),
         )
+
+@router.get(
+    "/admin-test",
+    summary="Test admin access",
+)
+def admin_test(
+    current_user: User = Depends(get_current_admin),
+) -> dict:
+    return {
+        "message": "Admin access granted.",
+        "user_id": current_user.id,
+        "is_admin": current_user.is_admin,
+    }

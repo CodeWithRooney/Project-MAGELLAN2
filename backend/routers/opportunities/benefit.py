@@ -6,6 +6,8 @@ from fastapi import (
 from sqlalchemy.orm import Session
 
 from database import get_db
+from dependencies.auth import get_current_admin
+from models import User
 
 from schemas.opportunities import (
     BenefitCreate,
@@ -36,6 +38,7 @@ router = APIRouter(
 def create(
     benefit: BenefitCreate,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> BenefitResponse:
     """
     Creates a new student benefit.
@@ -93,6 +96,7 @@ def update(
     benefit_id: int,
     benefit: BenefitCreate,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> BenefitResponse:
     """
     Updates an existing student benefit.
@@ -113,6 +117,7 @@ def update(
 def delete(
     benefit_id: int,
     db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
 ) -> dict:
     """
     Deletes a student benefit.

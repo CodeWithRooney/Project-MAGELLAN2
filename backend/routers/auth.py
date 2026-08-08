@@ -17,7 +17,6 @@ from exceptions import (
 from schemas.auth import (
     AuthResponse,
     LoginRequest,
-    UserRegister,
 )
 
 from schemas.user import UserRegister
