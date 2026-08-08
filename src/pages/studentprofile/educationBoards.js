@@ -1,0 +1,40 @@
+export const educationBoards = [
+
+  "CBSE",
+  "ICSE",
+  "CISCE",
+  "NIOS",
+
+  "Andhra Pradesh State Board",
+  "Assam State Board",
+  "Bihar State Board",
+  "Chhattisgarh State Board",
+  "Goa Board",
+  "GSEB (Gujarat)",
+  "HBSE (Haryana)",
+  "HPBOSE (Himachal Pradesh)",
+  "JAC (Jharkhand)",
+  "KSEAB (Karnataka)",
+  "KBPE (Kerala)",
+  "MPBSE (Madhya Pradesh)",
+  "MSBSHSE (Maharashtra)",
+  "Manipur Board",
+  "Meghalaya Board",
+  "Mizoram Board",
+  "Nagaland Board",
+  "BSE Odisha",
+  "PSEB (Punjab)",
+  "RBSE (Rajasthan)",
+  "Sikkim Board",
+  "TNBSE (Tamil Nadu)",
+  "BSE Telangana",
+  "TBSE (Tripura)",
+  "UPMSP (Uttar Pradesh)",
+  "UBSE (Uttarakhand)",
+  "WBBSE (West Bengal)",
+
+  "IB (International Baccalaureate)",
+  "Cambridge (CAIE)",
+  "Other"
+
+];

@@ -1,0 +1,68 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.nav {
+    width: 100%;             /* Use 100% instead of 80rem so it spans full screen width */
+    min-height: 6rem;        /* Use min-height so it expands if text is large */
+    display: flex;
+    flex-direction: row;
+    align-items: center;     /* Perfectly centers left and right items vertically */
+    justify-content: space-between;
+    padding: 0 2rem;        /* Clean padding for edge spacing */
+}
+
+.siteName {
+    /* REMOVED fixed width and height */
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-size: 3rem;         /* Reduced slightly from 4rem to fit comfortably in a 6rem nav */
+    line-height: 1;          /* Keeps text box tight around the letters */
+}
+
+.items {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;               /* Keeps automatic spacing between menu links and button */
+}
+
+.item1 {
+    /* REMOVED fixed width and height so text isn't cut off */
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+
+.item2 {
+    /* REMOVED fixed width and height so text isn't cut off */
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+
+.login {
+    padding: 0.5rem 1rem;    /* Let padding handle button size instead of hardcoded width */
+    border-radius: 0.3125rem;
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+button {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: scale(0.97);
+}
+
+button:active {
+  transform: scale(0.92);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}

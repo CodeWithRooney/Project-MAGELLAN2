@@ -1,0 +1,180 @@
+.signup-page {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: #071329;
+}
+
+/* ================= LOGO ================= */
+
+.signup-logo {
+  position: absolute;
+  z-index: 3;
+}
+
+.signup-logo img {
+  width: 300%;
+  height: auto;
+  display: block;
+}
+
+/* ================= BACKGROUND ================= */
+
+.signup-background {
+  position: absolute;
+  inset: 0;
+
+  background-image: url("/images/signup-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  z-index: 0;
+}
+
+/* ================= FORM ================= */
+
+.signup-form {
+  position: absolute;
+  z-index: 2;
+
+  left: 42%;
+  top: 22%;
+
+  width: 300px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ================= INPUT GROUP ================= */
+
+.signup-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ================= LABELS ================= */
+
+.signup-form-group label {
+  color: #FEFEFE;
+  font-family: "Inria Serif";
+  font-size: 25px;
+  font-weight: 700;
+}
+
+/* ================= INPUTS ================= */
+
+.signup-form-group input {
+  width: 100%;
+  height: 40px;
+
+  box-sizing: border-box;
+
+  border-radius: 16px;
+  border: 2px solid black;
+  outline: none;
+
+  padding: 8px 12px;
+
+  background: #f5d99a;
+
+  font-family: "Inria Serif";
+  font-size: 18px;
+
+  color: #111;
+
+  transition: 0.25s;
+}
+
+.signup-form-group input:focus {
+  box-shadow: 0 0 0 2px #ffffff;
+}
+
+/* ================= BUTTON ================= */
+
+.signup-form button {
+  align-self: flex-start;
+
+  margin-top: 18px;
+
+  padding: 13px 28px;
+
+  border-radius: 30px;
+
+  border: 2px solid #FEFEFE;
+
+  background: transparent;
+
+  color: #FEFEFE;
+
+  font-family: "Inria Serif";
+  font-size: 20px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+.signup-form button:hover {
+  transform: scale(1.05);
+  background: #f5d99a;
+  color: black;
+}
+
+.signup-form button:active {
+  transform: scale(0.95);
+}
+
+/* ================= ERROR ================= */
+
+.signup-error {
+  margin: 0;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px) {
+
+  .signup-form {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .signup-form {
+
+    width: 90%;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+  }
+
+  .signup-form-group label {
+    font-size: 22px;
+  }
+
+  .signup-form-group input {
+    font-size: 16px;
+  }
+
+  .signup-form button {
+    width: 100%;
+    align-self: center;
+    text-align: center;
+  }
+
+}
