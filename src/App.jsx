@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Landingpage from "./pages/landingpage/Landingpage";
+import Accountcreated from "./pages/accountcreated/Accountcreated";
 import Signup from "./pages/signuppage/Signup";
 import Login from "./pages/loginpage/Login";
 import StudentProfile from "./pages/studentprofile/StudentProfile"
@@ -22,6 +23,7 @@ import Actor from "./pages/actor/Actor"
 import Archaeologist from "./pages/archaeologist/Archaeologist"
 import Youtuber from "./pages/youtuber/Youtuber"
 import Psychologist from "./pages/psychologist/Psychologist"
+import VerifyEmail from "./pages/VerifyEmail";
 
 
 function App() {
@@ -36,6 +38,11 @@ return (
       />
 
       <Route
+        path="/accountcreated"
+        element={<Accountcreated />}
+      />
+
+      <Route
         path="/signup"
         element={<Signup />}
       />
@@ -43,6 +50,11 @@ return (
       <Route
         path="/login"
         element={<Login />}
+      />
+
+      <Route
+        path="/verify-email"
+        element={<VerifyEmail />}
       />
 
       <Route
@@ -102,6 +114,10 @@ return (
       <Route
         path="/teacher"
         element={<Teacher />}
+      />
+      <Route
+        path="/actor"
+        element={<Actor />}
       />
       <Route
         path="/archaeologist"

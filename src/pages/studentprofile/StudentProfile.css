@@ -1,689 +1,1208 @@
 /* =======================================================
-   STUDENT PROFILE - MAGELLAN
-   Part 1
+STUDENT PROFILE
+MAGELLAN
 ======================================================= */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:"Poppins",sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 
-body{
-    background:#F4C87A;
+body {
+    background: #F4C87A;
 }
 
-.student-profile-page{
-    width:100%;
-    min-height:100vh;
-    display:flex;
-    background:#F4C87A;
+
+/* =======================================================
+PAGE
+======================================================= */
+
+.student-profile-page {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #F4C87A;
 }
 
-/* ===================== SIDEBAR ===================== */
 
-.profile-sidebar{
-    width:300px;
-    background:#F4C87A;
-    padding:60px 35px;
-    display:flex;
-    flex-direction:column;
-    gap:40px;
-    border-right:2px solid rgba(0,0,0,.08);
+/* =======================================================
+TOP PROGRESS INDICATOR
+======================================================= */
+
+.profile-sidebar {
+    width: 100%;
+
+    background: rgba(244, 200, 122, 0.97);
+
+    padding: 25px 50px 20px;
+
+    display: flex;
+    justify-content: center;
+
+    border-bottom: 1px solid rgba(16, 42, 86, 0.12);
+
+    flex-shrink: 0;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    backdrop-filter: blur(10px);
 }
 
-.sidebar-item{
-    display:flex;
-    align-items:center;
-    gap:18px;
+
+/* =======================================================
+PROGRESS HEADER
+======================================================= */
+
+.progress-header {
+    width: 100%;
+    max-width: 900px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.circle{
-    width:20px;
-    height:20px;
-    border-radius:50%;
-    background:#d8d8d8;
-    transition:.3s;
-    flex-shrink:0;
+
+/* =======================================================
+PROGRESS STEPS
+======================================================= */
+
+.progress-steps {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    position: relative;
 }
 
-.sidebar-item button{
-    border:none;
-    outline:none;
-    background:transparent;
-    font-size:18px;
-    font-weight:600;
-    color:#1E355E;
-    letter-spacing:.5px;
-    cursor:pointer;
-    text-align:left;
+
+/* =======================================================
+STEP CONNECTOR
+======================================================= */
+
+.progress-steps::before {
+    content: "";
+
+    position: absolute;
+
+    top: 48px;
+    left: 17%;
+    right: 17%;
+
+    height: 2px;
+
+    background: rgba(16, 42, 86, 0.16);
+
+    z-index: 0;
 }
 
-/* Active */
 
-.sidebar-item.active .circle{
-    background:#102A56;
-    transform:scale(1.15);
+/* =======================================================
+SIDEBAR ITEM
+======================================================= */
+
+.sidebar-item {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 9px;
+
+    min-width: 150px;
+
+    position: relative;
+    z-index: 2;
 }
 
-/* Completed */
 
-.sidebar-item.completed .circle{
-    background:#1DB954;
+/* =======================================================
+CIRCLE
+======================================================= */
+
+.circle {
+    width: 92px;
+    height: 92px;
+
+    border-radius: 50%;
+
+    background: rgba(16, 42, 86, 0.13);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border: 2px solid transparent;
+
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
 }
 
-/* ===================== RIGHT PANEL ===================== */
 
-.profile-content{
-    flex:1;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:50px;
+/* =======================================================
+SVG ICON
+======================================================= */
+
+.circle svg {
+    width: 42px;
+    height: 42px;
+
+    fill: none;
+
+    stroke: #17335B;
+
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    transition: 0.3s ease;
 }
 
-/* ===================== FORM CONTAINER ===================== */
 
-.personal-section,
-.academic-section,
-.skills-section{
+/* =======================================================
+SIDEBAR BUTTON
+======================================================= */
 
-    width:100%;
-    max-width:900px;
+.sidebar-item button {
+    border: none;
+    outline: none;
 
-    background:#F6D48E;
+    background: transparent;
 
-    padding:45px;
+    font-size: 15px;
+    font-weight: 700;
 
-    border-radius:25px;
+    color: #50627C;
+
+    letter-spacing: 0.4px;
+
+    cursor: default;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    transition: 0.3s ease;
+}
+
+
+/* =======================================================
+ACTIVE STEP
+======================================================= */
+
+.sidebar-item.active .circle {
+    background: #102A56;
+
+    border-color: #102A56;
+
+    transform: scale(1.06);
 
     box-shadow:
-    0 15px 35px rgba(0,0,0,.15);
-
+        0 8px 20px rgba(16, 42, 86, 0.22);
 }
 
-/* ===================== ROWS ===================== */
-
-.form-row{
-
-    display:flex;
-
-    gap:30px;
-
-    margin-bottom:28px;
-
+.sidebar-item.active .circle svg {
+    stroke: #F4C87A;
 }
 
-.center-row{
-
-    justify-content:center;
-
-}
-
-/* ===================== INPUT GROUP ===================== */
-
-.input-group{
-
-    flex:1;
-
-    display:flex;
-
-    flex-direction:column;
-
-}
-
-.input-group label{
-
-    font-size:15px;
-
-    font-weight:700;
-
-    color:#17335B;
-
-    margin-bottom:10px;
-
-    letter-spacing:.5px;
-
-}
-
-/* ===================== INPUTS ===================== */
-
-.input-group input,
-.input-group select{
-
-    width:100%;
-
-    padding:15px 18px;
-
-    border:none;
-
-    border-radius:14px;
-
-    background:#fff;
-
-    font-size:16px;
-
-    outline:none;
-
-    transition:.3s;
-
-}
-
-.input-group input:focus,
-.input-group select:focus{
-
-    box-shadow:0 0 0 3px rgba(16,42,86,.15);
-
-}
-
-
-
-/* =======================================================
-   PART 2
-   Buttons + Academic + Skills
-======================================================= */
-
-/* ================= BUTTON ================= */
-
-.button-container{
-
-    width:100%;
-
-    display:flex;
-
-    justify-content:center;
-
-    margin-top:40px;
-
-}
-
-.submit-btn{
-
-    background:#102A56;
-
-    color:white;
-
-    border:none;
-
-    outline:none;
-
-    padding:16px 60px;
-
-    border-radius:40px;
-
-    font-size:18px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.35s;
-
-    letter-spacing:1px;
-
-}
-
-.submit-btn:hover{
-
-    background:#183C76;
-
-    transform:translateY(-3px);
-
-    box-shadow:0 10px 25px rgba(0,0,0,.2);
-
-}
-
-.submit-btn:active{
-
-    transform:scale(.97);
-
-}
-
-/* ================= ACADEMIC ================= */
-
-.board-group{
-
-    width:50%;
-
-}
-
-/* ================= SKILLS PAGE ================= */
-
-.skills-section{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:35px;
-
-}
-
-.skill-block{
-
-    width:100%;
-
-}
-
-.skill-block h3{
-
-    color:#102A56;
-
-    margin-bottom:18px;
-
-    font-size:20px;
-
-    font-weight:700;
-
-}
-
-/* ================= CHECKBOX GRID ================= */
-
-.checkbox-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(3,1fr);
-
-    gap:15px;
-
-    margin-bottom:18px;
-
-}
-
-.checkbox-item{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    background:white;
-
-    padding:12px 15px;
-
-    border-radius:12px;
-
-    transition:.3s;
-
-    cursor:pointer;
-
-    border:2px solid transparent;
-
-}
-
-.checkbox-item:hover{
-
-    border-color:#102A56;
-
-    transform:translateY(-2px);
-
-}
-
-.checkbox-item input{
-
-    width:18px;
-
-    height:18px;
-
-    cursor:pointer;
-
-}
-
-.checkbox-item span{
-
-    font-size:15px;
-
-    color:#17335B;
-
-    font-weight:500;
-
-}
-
-/* ================= CUSTOM INPUT ================= */
-
-.skill-block input[type="text"]{
-
-    width:100%;
-
-    padding:15px;
-
-    border:none;
-
-    border-radius:14px;
-
-    outline:none;
-
-    background:white;
-
-    font-size:15px;
-
-    transition:.3s;
-
-}
-
-.skill-block input[type="text"]:focus{
-
-    box-shadow:0 0 0 3px rgba(16,42,86,.18);
-
+.sidebar-item.active button {
+    color: #102A56;
 }
 
 
 /* =======================================================
-   PART 3
-   Animations + Responsive Design + Final Polish
+COMPLETED STEP
 ======================================================= */
 
-/* ================= SCROLLBAR ================= */
+.sidebar-item.completed .circle {
+    background: #1DB954;
 
-::-webkit-scrollbar{
-    width:8px;
+    border-color: #1DB954;
 }
 
-::-webkit-scrollbar-track{
-    background:#f3d58f;
+.sidebar-item.completed .circle svg {
+    stroke: #FFFFFF;
 }
 
-::-webkit-scrollbar-thumb{
-    background:#17335B;
-    border-radius:10px;
+.sidebar-item.completed button {
+    color: #17335B;
 }
 
-::-webkit-scrollbar-thumb:hover{
-    background:#102A56;
+
+/* =======================================================
+PROGRESS INFO
+======================================================= */
+
+.progress-info {
+    margin-top: 10px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+
+    color: #17335B;
+
+    opacity: 0.75;
 }
 
-/* ================= ANIMATIONS ================= */
+
+/* =======================================================
+PROGRESS BAR
+======================================================= */
+
+.progress-track {
+    width: 75%;
+
+    height: 4px;
+
+    margin-top: 10px;
+
+    background: rgba(16, 42, 86, 0.13);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+
+    background: #102A56;
+
+    border-radius: 10px;
+
+    transition: width 0.4s ease;
+}
+
+
+/* =======================================================
+CONTENT
+======================================================= */
+
+.profile-content {
+    width: 100%;
+
+    flex: 1;
+
+    padding: 55px 30px 70px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: flex-start;
+}
+
+
+/* =======================================================
+FORM WRAPPER
+======================================================= */
+
+.profile-form-wrapper {
+    width: 100%;
+
+    max-width: 950px;
+}
+
+
+/* =======================================================
+STEP INTRODUCTION
+======================================================= */
+
+.step-introduction {
+    text-align: center;
+
+    margin-bottom: 28px;
+}
+
+.step-eyebrow {
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    color: #17335B;
+
+    margin-bottom: 7px;
+
+    opacity: 0.7;
+}
+
+.step-introduction h1 {
+    color: #102A56;
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    margin-bottom: 7px;
+}
+
+.step-introduction p {
+    color: #53647B;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    max-width: 600px;
+
+    margin: 0 auto;
+}
+
+
+/* =======================================================
+FORM CONTAINERS
+======================================================= */
 
 .personal-section,
 .academic-section,
-.skills-section{
+.skills-section {
+    width: 100%;
 
-    animation:fadeSlide .45s ease;
+    background: #F6D48E;
 
+    padding: 42px;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.10);
+
+    animation: fadeSlide 0.4s ease;
 }
 
-@keyframes fadeSlide{
 
-    from{
+/* =======================================================
+FORM ROW
+======================================================= */
 
-        opacity:0;
-        transform:translateY(20px);
+.form-row {
+    display: flex;
 
-    }
+    gap: 28px;
 
-    to{
-
-        opacity:1;
-        transform:translateY(0);
-
-    }
-
+    margin-bottom: 25px;
 }
 
-.submit-btn,
-.checkbox-item,
+.center-row {
+    justify-content: center;
+}
+
+
+/* =======================================================
+INPUT GROUP
+======================================================= */
+
+.input-group {
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+/* =======================================================
+LABELS
+======================================================= */
+
+.input-group label {
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: #17335B;
+
+    margin-bottom: 9px;
+
+    letter-spacing: 0.7px;
+}
+
+
+/* =======================================================
+INPUTS
+======================================================= */
+
 .input-group input,
-.input-group select{
+.input-group select {
+    width: 100%;
 
-    transition:.3s ease;
+    padding: 15px 18px;
 
+    border: 1px solid transparent;
+
+    border-radius: 14px;
+
+    background: #FFFFFF;
+
+    font-size: 16px;
+
+    color: #17335B;
+
+    outline: none;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
 }
 
 .input-group input:hover,
-.input-group select:hover{
+.input-group select:hover {
+    border-color: rgba(16, 42, 86, 0.12);
+}
 
-    transform:translateY(-1px);
+.input-group input:focus,
+.input-group select:focus {
+    border-color: rgba(16, 42, 86, 0.25);
+
+    box-shadow:
+        0 0 0 3px rgba(16, 42, 86, 0.10);
+}
+
+
+/* =======================================================
+BUTTON CONTAINER
+======================================================= */
+
+.button-container {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    margin-top: 38px;
+}
+
+
+/* =======================================================
+NAVIGATION BUTTONS
+======================================================= */
+
+.navigation-buttons {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-top: 38px;
+}
+
+
+/* =======================================================
+MAIN BUTTON
+======================================================= */
+
+.submit-btn {
+    background: #102A56;
+
+    color: #FFFFFF;
+
+    border: none;
+
+    outline: none;
+
+    min-width: 180px;
+
+    padding: 15px 32px;
+
+    border-radius: 40px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+    letter-spacing: 0.8px;
+}
+
+.submit-btn span {
+    display: inline-block;
+
+    margin-left: 10px;
+
+    transition: transform 0.25s ease;
+}
+
+.submit-btn:hover {
+    background: #183C76;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(16, 42, 86, 0.20);
+}
+
+.submit-btn:hover span {
+    transform: translateX(3px);
+}
+
+.submit-btn:active {
+    transform: scale(0.97);
+}
+
+
+/* =======================================================
+BACK BUTTON
+======================================================= */
+
+.back-btn {
+    border: none;
+
+    background: transparent;
+
+    color: #17335B;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
+
+    cursor: pointer;
+
+    padding: 12px 5px;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.back-btn:hover {
+    color: #102A56;
+
+    transform: translateX(-3px);
+}
+
+
+/* =======================================================
+ACADEMIC
+======================================================= */
+
+.board-group {
+    width: 50%;
+}
+
+
+/* =======================================================
+SKILLS
+======================================================= */
+
+.skills-section {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 34px;
+}
+
+.skill-block {
+    width: 100%;
+}
+
+.skill-block h3 {
+    color: #102A56;
+
+    margin-bottom: 15px;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.3px;
+}
+
+
+/* =======================================================
+CHECKBOX GRID
+======================================================= */
+
+.checkbox-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 15px;
+}
+
+
+/* =======================================================
+CHECKBOX ITEM
+======================================================= */
+
+.checkbox-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    background: #FFFFFF;
+
+    padding: 13px 15px;
+
+    border-radius: 12px;
+
+    transition:
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+    cursor: pointer;
+
+    border: 2px solid transparent;
+}
+
+.checkbox-item:hover {
+    border-color: rgba(16, 42, 86, 0.30);
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 4px 10px rgba(16, 42, 86, 0.07);
+}
+
+.checkbox-item input {
+    width: 18px;
+    height: 18px;
+
+    cursor: pointer;
+
+    accent-color: #102A56;
+}
+
+.checkbox-item span {
+    font-size: 14px;
+
+    color: #17335B;
+
+    font-weight: 500;
+}
+
+
+/* =======================================================
+CUSTOM INPUT
+======================================================= */
+
+.skill-block input[type="text"] {
+    width: 100%;
+
+    padding: 15px 18px;
+
+    border: 1px solid transparent;
+
+    border-radius: 14px;
+
+    outline: none;
+
+    background: #FFFFFF;
+
+    font-size: 15px;
+
+    color: #17335B;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.skill-block input[type="text"]:focus {
+    border-color: rgba(16, 42, 86, 0.25);
+
+    box-shadow:
+        0 0 0 3px rgba(16, 42, 86, 0.10);
+}
+
+
+/* =======================================================
+CAREER GOAL
+======================================================= */
+
+.career-goal-block {
+    margin-top: 2px;
+}
+
+.career-goal-block h3 {
+    color: #102A56;
+
+    margin-bottom: 15px;
+
+    font-size: 18px;
+
+    font-weight: 700;
+}
+
+.career-select {
+    width: 100%;
+
+    padding: 15px 18px;
+
+    border: 1px solid transparent;
+
+    border-radius: 14px;
+
+    outline: none;
+
+    background: #FFFFFF;
+
+    font-size: 16px;
+
+    color: #17335B;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+
+    cursor: pointer;
+
+    margin-bottom: 12px;
+}
+
+.career-select:hover {
+    border-color: rgba(16, 42, 86, 0.12);
+}
+
+.career-select:focus {
+    border-color: rgba(16, 42, 86, 0.25);
+
+    box-shadow:
+        0 0 0 3px rgba(16, 42, 86, 0.10);
+}
+
+
+/* =======================================================
+SCROLLBAR
+======================================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #F3D58F;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #17335B;
+
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #102A56;
+}
+
+
+/* =======================================================
+ANIMATION
+======================================================= */
+
+@keyframes fadeSlide {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
 
 }
 
-/* ================= PLACEHOLDER ================= */
 
-::placeholder{
+/* =======================================================
+PLACEHOLDER
+======================================================= */
 
-    color:#8b8b8b;
+::placeholder {
+    color: #8B8B8B;
 
-    font-size:14px;
-
+    font-size: 14px;
 }
 
-/* ================= SELECT ================= */
 
-select{
+/* =======================================================
+SELECT
+======================================================= */
 
-    appearance:none;
+select {
+    appearance: none;
 
-    cursor:pointer;
+    cursor: pointer;
 
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%2317335B' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 5.646a.5.5 0 0 1 .708 0L8 11.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%2317335B' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 5.646a.5.5 0 0 1 .708 0L8 11.293l5.646-5.647a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 .708-.708l-6-6z'/%3E%3C/svg%3E");
 
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
 
-    background-position:right 18px center;
+    background-position: right 18px center;
 
-    padding-right:50px;
-
+    padding-right: 50px;
 }
 
-/* ================= MOBILE ================= */
 
-@media(max-width:1000px){
+/* =======================================================
+TABLET
+======================================================= */
 
-    .student-profile-page{
+@media (max-width: 1000px) {
 
-        flex-direction:column;
-
+    .profile-sidebar {
+        padding:
+            22px
+            25px
+            18px;
     }
 
-    .profile-sidebar{
-
-        width:100%;
-        flex-direction:row;
-        justify-content:center;
-        align-items:center;
-        padding:25px;
-        gap:25px;
-        border-right:none;
-        border-bottom:2px solid rgba(0,0,0,.08);
-
+    .progress-header {
+        max-width: 750px;
     }
 
-    .sidebar-item{
-
-        flex-direction:column;
-        text-align:center;
-        gap:10px;
-
+    .circle {
+        width: 78px;
+        height: 78px;
     }
 
-    .sidebar-item button{
-
-        font-size:14px;
-
+    .circle svg {
+        width: 36px;
+        height: 36px;
     }
 
-    .profile-content{
-
-        padding:30px 20px;
-
+    .sidebar-item {
+        min-width: 120px;
     }
 
-}
-
-/* ================= TABLET ================= */
-
-@media(max-width:850px){
-
-    .form-row{
-
-        flex-direction:column;
-
-        gap:20px;
-
+    .sidebar-item button {
+        font-size: 13px;
     }
 
-    .board-group{
-
-        width:100%;
-
-    }
-
-    .checkbox-grid{
-
-        grid-template-columns:repeat(2,1fr);
-
+    .profile-content {
+        padding:
+            45px
+            20px
+            60px;
     }
 
 }
 
-/* ================= PHONE ================= */
 
-@media(max-width:600px){
+/* =======================================================
+TABLET SMALL
+======================================================= */
+
+@media (max-width: 850px) {
+
+    .profile-sidebar {
+        padding:
+            20px
+            15px
+            16px;
+    }
+
+    .progress-steps::before {
+        left: 15%;
+        right: 15%;
+    }
+
+    .sidebar-item {
+        min-width: 105px;
+    }
+
+    .sidebar-item button {
+        font-size: 11px;
+
+        white-space: normal;
+
+        line-height: 1.3;
+    }
+
+    .form-row {
+        flex-direction: column;
+
+        gap: 20px;
+    }
+
+    .board-group {
+        width: 100%;
+    }
+
+    .checkbox-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* =======================================================
+PHONE
+======================================================= */
+
+@media (max-width: 600px) {
+
+    .profile-sidebar {
+        padding:
+            16px
+            8px
+            13px;
+    }
+
+    .progress-steps {
+        gap: 3px;
+    }
+
+    .progress-steps::before {
+        top: 32px;
+
+        left: 16%;
+        right: 16%;
+    }
+
+    .sidebar-item {
+        min-width: 0;
+
+        width: 33.33%;
+
+        gap: 6px;
+    }
+
+    .circle {
+        width: 62px;
+        height: 62px;
+    }
+
+    .circle svg {
+        width: 29px;
+        height: 29px;
+    }
+
+    .sidebar-item button {
+        font-size: 9px;
+
+        letter-spacing: 0;
+
+        white-space: normal;
+
+        line-height: 1.25;
+    }
+
+    .progress-info {
+        font-size: 10px;
+
+        margin-top: 7px;
+    }
+
+    .progress-track {
+        width: 85%;
+
+        height: 3px;
+    }
+
+    .profile-content {
+        padding:
+            30px
+            12px
+            45px;
+    }
+
+    .step-introduction {
+        margin-bottom: 20px;
+    }
+
+    .step-eyebrow {
+        font-size: 10px;
+    }
+
+    .step-introduction h1 {
+        font-size: 22px;
+    }
+
+    .step-introduction p {
+        font-size: 13px;
+
+        padding:
+            0
+            10px;
+    }
 
     .personal-section,
     .academic-section,
-    .skills-section{
+    .skills-section {
+        padding: 25px 18px;
 
-        padding:25px;
-
-        border-radius:18px;
-
+        border-radius: 18px;
     }
 
-    .checkbox-grid{
-
-        grid-template-columns:1fr;
-
+    .checkbox-grid {
+        grid-template-columns: 1fr;
     }
 
-    .submit-btn{
-
-        width:100%;
-
-        padding:16px;
-
+    .navigation-buttons {
+        margin-top: 28px;
     }
 
-    .input-group label{
+    .submit-btn {
+        min-width: 0;
 
-        font-size:14px;
+        padding:
+            14px
+            22px;
 
+        font-size: 14px;
+    }
+
+    .back-btn {
+        font-size: 12px;
+    }
+
+    .input-group label {
+        font-size: 12px;
     }
 
     .input-group input,
-    .input-group select{
-
-        font-size:15px;
-
+    .input-group select {
+        font-size: 15px;
     }
 
-    .skill-block h3{
+    .skill-block h3 {
+        font-size: 17px;
+    }
 
-        font-size:18px;
-
+    .career-goal-block h3 {
+        font-size: 17px;
     }
 
 }
 
-/* ================= LARGE SCREENS ================= */
 
-@media(min-width:1500px){
+/* =======================================================
+VERY SMALL PHONE
+======================================================= */
 
-    .profile-content{
+@media (max-width: 400px) {
 
-        padding:80px;
+    .profile-sidebar {
+        padding:
+            14px
+            4px
+            11px;
+    }
 
+    .circle {
+        width: 54px;
+        height: 54px;
+    }
+
+    .circle svg {
+        width: 25px;
+        height: 25px;
+    }
+
+    .progress-steps::before {
+        top: 27px;
+    }
+
+    .sidebar-item button {
+        font-size: 8px;
+    }
+
+    .step-introduction h1 {
+        font-size: 20px;
+    }
+
+    .step-introduction p {
+        font-size: 12px;
     }
 
     .personal-section,
     .academic-section,
-    .skills-section{
+    .skills-section {
+        padding: 22px 15px;
+    }
 
-        max-width:1050px;
+    .navigation-buttons {
+        gap: 10px;
+    }
 
+    .submit-btn {
+        padding:
+            13px
+            18px;
     }
 
 }
 
-/* ================= FINAL POLISH ================= */
+
+/* =======================================================
+LARGE SCREENS
+======================================================= */
+
+@media (min-width: 1500px) {
+
+    .profile-content {
+        padding:
+            65px
+            30px
+            90px;
+    }
+
+    .profile-form-wrapper {
+        max-width: 1050px;
+    }
+
+    .personal-section,
+    .academic-section,
+    .skills-section {
+        padding: 48px;
+    }
+
+}
+
+
+/* =======================================================
+FINAL POLISH
+======================================================= */
 
 input,
 select,
-button{
-
-    font-family:"Poppins",sans-serif;
-
+button {
+    font-family: "Poppins", sans-serif;
 }
 
-button{
-
-    user-select:none;
-
-}
-
-.checkbox-item:active{
-
-    transform:scale(.98);
-
-}
-
-.submit-btn:focus{
-
-    outline:none;
-
-}
-
-.profile-sidebar{
-
-    position:sticky;
-
-    top:0;
-
-    height:100vh;
-
-}
-
-.profile-content{
-    flex:1;
-    padding:50px;
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-}
-
-
-/* ================= CAREER GOAL ================= */
-
-.career-goal-block{
-    margin-top:10px;
-}
-
-.career-goal-block h3{
-    color:#102A56;
-    margin-bottom:18px;
-    font-size:20px;
-    font-weight:700;
-}
-
-.career-select{
-    width:100%;
-    padding:16px 18px;
-    border:none;
-    border-radius:14px;
-    outline:none;
-    background:#fff;
-    font-size:16px;
-    color:#17335B;
-    transition:.3s ease;
-    cursor:pointer;
-}
-
-.career-select:hover{
-    transform:translateY(-2px);
-}
-
-.career-select:focus{
-    box-shadow:0 0 0 3px rgba(16,42,86,.18);
+button {
+    user-select: none;
 }

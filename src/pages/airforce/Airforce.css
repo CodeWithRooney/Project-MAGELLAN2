@@ -1,900 +1,1565 @@
-/* =====================================================
-                    GOOGLE FONT
-===================================================== */
+/* =========================================================
+   GLOBAL
+========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-/* =====================================================
-                    GLOBAL
-===================================================== */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-html{
-    scroll-behavior:smooth;
+html {
+    scroll-behavior: smooth;
 }
 
-body{
-    background:#02071A;
-    color:white;
-    overflow-x:hidden;
-}
-html,
-body,
-#root{
-    width:100%;
-    margin:0;
-    padding:0;
-    overflow-x:hidden;
+body {
+    margin: 0;
+    padding: 0;
+
+    background: #02071A;
+    color: #FFFFFF;
+
+    overflow-x: hidden;
 }
 
-.app{
-    width:100%;
-    min-height:100vh;
-    background:#02071A;
+button {
+    font-family: inherit;
 }
 
-/* =====================================================
-                    HERO
-===================================================== */
 
-.hero{
-    width:100%;
-    padding:70px 8%;
-    text-align:center;
-    animation:fadeUp .8s ease;
+/* =========================================================
+   PAGE
+========================================================= */
+
+.airforce-page {
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at 15% 5%,
+            rgba(243, 203, 132, 0.08),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 25%,
+            rgba(243, 203, 132, 0.05),
+            transparent 28%
+        ),
+        #02071A;
+
+    color: #FFFFFF;
+
+    overflow-x: hidden;
 }
 
-.hero h1{
-    font-size:3.2rem;
-    color:#F3CB84;
-    margin-bottom:20px;
-    font-weight:700;
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.airforce-hero {
+    width: 100%;
+
+    padding:
+        32px
+        7%
+        90px;
 }
 
-.hero p{
-    width:70%;
-    margin:auto;
-    color:#d8d8d8;
-    line-height:1.8;
-    font-size:1.05rem;
+.airforce-back-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        11px
+        17px;
+
+    border:
+        1px solid
+        rgba(243, 203, 132, 0.35);
+
+    border-radius: 12px;
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    color: #F3CB84;
+
+    font-size: 0.9rem;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease;
 }
 
-/* =====================================================
-                    STATS
-===================================================== */
+.airforce-back-button:hover {
+    transform: translateX(-4px);
 
-.stats{
-    margin-top:60px;
+    background:
+        rgba(243, 203, 132, 0.08);
 
-    display:grid;
+    border-color: #F3CB84;
+}
+
+.airforce-hero-content {
+    max-width: 1000px;
+
+    margin:
+        70px
+        auto
+        0;
+
+    text-align: center;
+}
+
+.airforce-eyebrow {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        7px
+        14px;
+
+    margin-bottom: 18px;
+
+    border:
+        1px solid
+        rgba(243, 203, 132, 0.35);
+
+    border-radius: 100px;
+
+    color: #F3CB84;
+
+    font-size: 0.78rem;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.airforce-hero h1 {
+    margin: 0;
+
+    color: #F3CB84;
+
+    font-size:
+        clamp(
+            2.6rem,
+            6vw,
+            5rem
+        );
+
+    line-height: 1.08;
+
+    font-weight: 800;
+}
+
+.airforce-hero-content > p {
+    max-width: 880px;
+
+    margin:
+        28px
+        auto
+        0;
+
+    color: #D8D9E0;
+
+    font-size:
+        clamp(
+            1rem,
+            2vw,
+            1.18rem
+        );
+
+    line-height: 1.9;
+}
+
+
+/* =========================================================
+   HERO STATS
+========================================================= */
+
+.airforce-stats {
+    max-width: 1250px;
+
+    margin:
+        65px
+        auto
+        0;
+
+    display: grid;
 
     grid-template-columns:
-    repeat(3,1fr);
+        repeat(
+            3,
+            1fr
+        );
 
-    gap:30px;
+    gap: 24px;
 }
 
-.stat-card{
+.airforce-stat-card {
+    position: relative;
 
-    background:rgba(255,255,255,.05);
+    min-height: 190px;
 
-    backdrop-filter:blur(12px);
+    padding: 30px;
 
-    border:1px solid rgba(243,203,132,.15);
+    display: flex;
 
-    border-radius:18px;
+    flex-direction: column;
 
-    padding:35px;
+    align-items: center;
 
-    display:flex;
+    justify-content: center;
 
-    flex-direction:column;
+    text-align: center;
 
-    align-items:center;
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.035
+        );
 
-    justify-content:center;
+    border:
+        1px solid
+        rgba(
+            243,
+            203,
+            132,
+            0.18
+        );
 
-    transition:.35s;
+    border-radius: 22px;
 
-    cursor:pointer;
+    overflow: hidden;
 
-    animation:floating 5s ease-in-out infinite;
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
-.stat-card:nth-child(2){
-    animation-delay:.3s;
+.airforce-stat-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 170px;
+
+    height: 170px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(
+            243,
+            203,
+            132,
+            0.06
+        );
+
+    top: -100px;
+
+    right: -70px;
 }
 
-.stat-card:nth-child(3){
-    animation-delay:.6s;
-}
+.airforce-stat-card:hover {
+    transform: translateY(-7px);
 
-.stat-card svg{
-    color:#F3CB84;
-    margin-bottom:18px;
-}
-
-.stat-card h3{
-    font-size:1.6rem;
-    margin-bottom:8px;
-}
-
-.stat-card span{
-    color:#cccccc;
-}
-
-.stat-card:hover{
-
-    transform:translateY(-10px);
-
-    border-color:#F3CB84;
-
-    box-shadow:
-    0 0 35px rgba(243,203,132,.25);
-
-}
-
-/* =====================================================
-                    TIMELINE
-===================================================== */
-
-.timeline{
-
-    width:85%;
-
-    margin:70px auto;
-
-    position:relative;
-
-}
-
-.timeline-item{
-
-    display:flex;
-
-    gap:35px;
-
-    margin-bottom:60px;
-
-    animation:fadeUp .8s ease;
-
-}
-
-.left{
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-}
-
-.circle{
-
-    width:80px;
-
-    height:80px;
-
-    border-radius:50%;
-
-    background:#E4BD77;
-
-    color:#02071A;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    cursor:pointer;
-
-    transition:.35s;
+    border-color:
+        rgba(
+            243,
+            203,
+            132,
+            0.55
+        );
 
     box-shadow:
-    0 0 25px rgba(243,203,132,.4);
-
-    animation:glow 3s infinite;
-
+        0
+        15px
+        45px
+        rgba(
+            0,
+            0,
+            0,
+            0.25
+        );
 }
 
-.circle:hover{
+.airforce-stat-card svg {
+    color: #F3CB84;
 
-    transform:scale(1.12);
-
+    margin-bottom: 18px;
 }
 
-.circle svg{
+.airforce-stat-card h3 {
+    margin:
+        0
+        0
+        8px;
 
-    width:34px;
-    height:34px;
+    color: #FFFFFF;
 
+    font-size: 1.2rem;
 }
 
-.line{
+.airforce-stat-card span {
+    max-width: 300px;
 
-    width:5px;
+    color: #BFC1C9;
 
-    height:140px;
+    font-size: 0.88rem;
 
-    border-radius:30px;
-
-    margin-top:10px;
-
-    background:linear-gradient(
-    to bottom,
-    #F3CB84,
-    #E4BD77,
-    #F3CB84);
-
+    line-height: 1.6;
 }
 
-/* =====================================================
-                    RIGHT SIDE
-===================================================== */
 
-.right{
+/* =========================================================
+   SECTION HEADING
+========================================================= */
 
-    flex:1;
+.airforce-section-heading {
+    max-width: 880px;
 
-    padding-top:15px;
+    margin:
+        0
+        auto
+        60px;
 
+    text-align: center;
 }
 
-.title{
+.airforce-section-label {
+    margin-bottom: 12px;
 
-    display:flex;
+    color: #F3CB84;
 
-    justify-content:space-between;
+    font-size: 0.78rem;
 
-    align-items:center;
+    font-weight: 700;
 
-    background:rgba(255,255,255,.05);
-
-    border:1px solid rgba(243,203,132,.12);
-
-    border-radius:18px;
-
-    padding:22px 28px;
-
-    cursor:pointer;
-
-    transition:.3s;
-
+    letter-spacing: 2px;
 }
 
-.title h2{
+.airforce-section-heading h2 {
+    margin: 0;
 
-    color:#F3CB84;
+    color: #FFFFFF;
 
-    font-size:1.35rem;
+    font-size:
+        clamp(
+            2rem,
+            4vw,
+            3rem
+        );
 
-    font-weight:600;
-
+    line-height: 1.2;
 }
 
-.title svg{
+.airforce-section-heading p {
+    max-width: 780px;
 
-    color:#F3CB84;
+    margin:
+        18px
+        auto
+        0;
 
+    color: #BFC1C9;
+
+    font-size: 1rem;
+
+    line-height: 1.8;
 }
 
-.title:hover{
 
-    background:rgba(243,203,132,.08);
+/* =========================================================
+   ORIENTATION
+========================================================= */
 
-    border-color:#F3CB84;
+.airforce-orientation {
+    width: 86%;
 
-    transform:scale(1.01);
+    max-width: 1300px;
 
+    margin:
+        0
+        auto
+        120px;
 }
 
-/* =====================================================
-                    FLOATING DROPDOWN
-===================================================== */
+.airforce-branch-grid {
+    display: grid;
 
-.dropdown{
+    grid-template-columns:
+        repeat(
+            3,
+            1fr
+        );
 
-    margin-top:15px;
-
-    width:100%;
-
-    background:white;
-
-    border-left:8px solid #E4BD77;
-
-    border-radius:18px;
-
-    padding:22px 25px;
-
-    animation:dropdown .35s ease;
-
-    box-shadow:0 12px 30px rgba(0,0,0,.25);
-
+    gap: 24px;
 }
 
-.dropdown-heading{
+.airforce-branch-card {
+    min-height: 260px;
 
-    font-size:1.08rem;
+    padding: 32px;
 
-    color:#02071A;
+    border:
+        1px solid
+        rgba(
+            243,
+            203,
+            132,
+            0.16
+        );
 
-    font-weight:700;
+    border-radius: 22px;
 
-    margin-top:16px;
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.035
+        );
 
-    margin-bottom:10px;
-
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease;
 }
 
-.dropdown-heading:first-child{
+.airforce-branch-card:hover {
+    transform: translateY(-7px);
 
-    margin-top:0;
+    border-color: #F3CB84;
 
+    background:
+        rgba(
+            243,
+            203,
+            132,
+            0.055
+        );
 }
 
-.dropdown-item{
+.airforce-branch-icon {
+    width: 58px;
 
-    color:#444;
+    height: 58px;
 
-    line-height:1.9;
+    display: flex;
 
-    margin-left:12px;
+    align-items: center;
 
+    justify-content: center;
+
+    margin-bottom: 22px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(
+            243,
+            203,
+            132,
+            0.1
+        );
+
+    color: #F3CB84;
 }
 
-/* =====================================================
-                CAREER FEASIBILITY
-===================================================== */
+.airforce-branch-card h3 {
+    margin:
+        0
+        0
+        13px;
 
-.career{
-    width:85%;
-    margin:100px auto 80px;
-    animation:fadeUp .8s ease;
+    color: #F3CB84;
+
+    font-size: 1.25rem;
 }
 
-.career h1{
-    text-align:center;
-    color:#F3CB84;
-    font-size:2.5rem;
-    margin-bottom:45px;
+.airforce-branch-card p {
+    margin: 0;
+
+    color: #C8CAD2;
+
+    line-height: 1.8;
+
+    font-size: 0.94rem;
 }
 
-.career-container{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:35px;
+
+/* =========================================================
+   ROADMAP
+========================================================= */
+
+.airforce-roadmap {
+    width: 86%;
+
+    max-width: 1300px;
+
+    margin:
+        0
+        auto
+        120px;
 }
 
-.career-card{
-
-    position:relative;
-
-    overflow:hidden;
-
-    background:rgba(255,255,255,.05);
-
-    backdrop-filter:blur(15px);
-
-    border:1px solid rgba(243,203,132,.15);
-
-    border-radius:20px;
-
-    padding:35px;
-
-    transition:.35s ease;
-
+.airforce-timeline {
+    position: relative;
 }
 
-.career-card::before{
+.airforce-timeline-item {
+    display: grid;
 
-    content:"";
+    grid-template-columns:
+        100px
+        1fr;
 
-    position:absolute;
-
-    width:180px;
-
-    height:180px;
-
-    border-radius:50%;
-
-    background:rgba(243,203,132,.08);
-
-    right:-90px;
-
-    top:-90px;
-
+    gap: 25px;
 }
 
-.career-card h2{
+.airforce-timeline-left {
+    position: relative;
 
-    color:#F3CB84;
+    display: flex;
 
-    margin-bottom:18px;
-
-    font-size:1.45rem;
-
+    justify-content: center;
 }
 
-.career-card p{
+.airforce-timeline-circle {
+    position: relative;
 
-    color:#dddddd;
+    z-index: 2;
 
-    line-height:1.9;
+    width: 70px;
 
-    font-size:1rem;
+    height: 70px;
 
-}
+    flex-shrink: 0;
 
-.career-card strong{
+    display: flex;
 
-    color:#F3CB84;
+    align-items: center;
 
-}
+    justify-content: center;
 
-.career-card:hover{
+    border: none;
 
-    transform:translateY(-10px);
+    border-radius: 50%;
 
-    border-color:#F3CB84;
+    background: #E4BD77;
+
+    color: #06204D;
+
+    cursor: pointer;
 
     box-shadow:
-    0 0 35px rgba(243,203,132,.25);
+        0
+        0
+        28px
+        rgba(
+            243,
+            203,
+            132,
+            0.15
+        );
 
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
-/* =====================================================
-                    SCROLLBAR
-===================================================== */
+.airforce-timeline-circle:hover,
+.airforce-timeline-circle.active {
+    transform: scale(1.08);
 
-::-webkit-scrollbar{
-
-    width:10px;
-
+    box-shadow:
+        0
+        0
+        35px
+        rgba(
+            243,
+            203,
+            132,
+            0.35
+        );
 }
 
-::-webkit-scrollbar-track{
+.airforce-timeline-line {
+    position: absolute;
 
-    background:#02071A;
+    top: 70px;
 
+    bottom: 0;
+
+    width: 3px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #E4BD77,
+            rgba(
+                228,
+                189,
+                119,
+                0.15
+            )
+        );
 }
 
-::-webkit-scrollbar-thumb{
-
-    background:#E4BD77;
-
-    border-radius:20px;
-
+.airforce-timeline-right {
+    padding-bottom: 34px;
 }
 
-::-webkit-scrollbar-thumb:hover{
+.airforce-timeline-title {
+    width: 100%;
 
-    background:#F3CB84;
+    min-height: 90px;
 
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding:
+        20px
+        28px;
+
+    border:
+        1px solid
+        rgba(
+            243,
+            203,
+            132,
+            0.18
+        );
+
+    border-radius: 20px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.035
+        );
+
+    color: #FFFFFF;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.3s ease,
+        background 0.3s ease;
 }
 
-/* =====================================================
-                    ANIMATIONS
-===================================================== */
+.airforce-timeline-title:hover,
+.airforce-timeline-title.active {
+    border-color: #F3CB84;
 
-@keyframes fadeUp{
+    background:
+        rgba(
+            243,
+            203,
+            132,
+            0.06
+        );
+}
 
-    from{
+.airforce-timeline-title > span {
+    display: flex;
 
-        opacity:0;
+    flex-direction: column;
 
-        transform:translateY(40px);
+    gap: 6px;
+}
 
+.airforce-timeline-title small {
+    color: #F3CB84;
+
+    font-size: 0.7rem;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+.airforce-timeline-title strong {
+    color: #FFFFFF;
+
+    font-size: 1.22rem;
+
+    font-weight: 700;
+}
+
+.airforce-arrow {
+    flex-shrink: 0;
+
+    color: #F3CB84;
+
+    transition:
+        transform 0.3s ease;
+}
+
+.airforce-arrow.rotated {
+    transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   DROPDOWN
+========================================================= */
+
+.airforce-dropdown {
+    margin-top: 12px;
+
+    padding:
+        28px
+        34px;
+
+    background: #F7F7F8;
+
+    border-left:
+        5px
+        solid
+        #E4BD77;
+
+    border-radius: 18px;
+
+    animation:
+        airforceDropdown
+        0.3s
+        ease;
+
+    box-shadow:
+        0
+        15px
+        35px
+        rgba(
+            0,
+            0,
+            0,
+            0.15
+        );
+}
+
+.airforce-dropdown-heading {
+    margin:
+        8px
+        0
+        12px;
+
+    color: #02071A;
+
+    font-size: 1.04rem;
+
+    font-weight: 750;
+}
+
+.airforce-dropdown-heading:not(:first-child) {
+    margin-top: 27px;
+}
+
+.airforce-dropdown-item {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+}
+
+.airforce-dropdown-item > span {
+    color: #B7832E;
+
+    font-size: 1.25rem;
+
+    line-height: 1.55;
+}
+
+.airforce-dropdown-item p {
+    margin:
+        0
+        0
+        8px;
+
+    color: #4B4D55;
+
+    font-size: 0.97rem;
+
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   CAREER REALITY
+========================================================= */
+
+.airforce-reality {
+    width: 86%;
+
+    max-width: 1300px;
+
+    margin:
+        0
+        auto
+        110px;
+}
+
+.airforce-reality-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            1fr
+        );
+
+    gap: 24px;
+}
+
+.airforce-reality-card {
+    position: relative;
+
+    min-height: 230px;
+
+    padding: 32px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.035
+        );
+
+    border:
+        1px solid
+        rgba(
+            243,
+            203,
+            132,
+            0.15
+        );
+
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.airforce-reality-card:hover {
+    transform: translateY(-6px);
+
+    border-color:
+        rgba(
+            243,
+            203,
+            132,
+            0.5
+        );
+}
+
+.airforce-reality-icon {
+    width: 52px;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 20px;
+
+    border-radius: 15px;
+
+    background:
+        rgba(
+            243,
+            203,
+            132,
+            0.1
+        );
+
+    color: #F3CB84;
+}
+
+.airforce-reality-card h3 {
+    margin:
+        0
+        0
+        12px;
+
+    color: #F3CB84;
+
+    font-size: 1.22rem;
+}
+
+.airforce-reality-card p {
+    margin: 0;
+
+    color: #C8CAD2;
+
+    font-size: 0.95rem;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   COMPENSATION
+========================================================= */
+
+.airforce-compensation {
+    width: 86%;
+
+    max-width: 1300px;
+
+    margin:
+        0
+        auto
+        110px;
+}
+
+.airforce-compensation-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            1fr
+        );
+
+    gap: 24px;
+}
+
+.airforce-compensation-card {
+    min-height: 230px;
+
+    padding: 32px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.035
+        );
+
+    border:
+        1px solid
+        rgba(
+            243,
+            203,
+            132,
+            0.16
+        );
+
+    border-radius: 22px;
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease;
+}
+
+.airforce-compensation-card:hover {
+    transform: translateY(-6px);
+
+    border-color: #F3CB84;
+
+    background:
+        rgba(
+            243,
+            203,
+            132,
+            0.055
+        );
+}
+
+.airforce-compensation-icon {
+    width: 52px;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 18px;
+
+    border-radius: 15px;
+
+    background:
+        rgba(
+            243,
+            203,
+            132,
+            0.1
+        );
+
+    color: #F3CB84;
+}
+
+.airforce-compensation-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #F3CB84;
+
+    font-size: 0.72rem;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+.airforce-compensation-card h3 {
+    margin:
+        0
+        0
+        13px;
+
+    color: #FFFFFF;
+
+    font-size: 1.55rem;
+
+    font-weight: 700;
+}
+
+.airforce-compensation-card p {
+    margin: 0;
+
+    color: #C8CAD2;
+
+    font-size: 0.93rem;
+
+    line-height: 1.75;
+}
+
+.airforce-compensation-note {
+    max-width: 1000px;
+
+    margin:
+        28px
+        auto
+        0;
+
+    padding:
+        22px
+        25px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    border:
+        1px solid
+        rgba(
+            243,
+            203,
+            132,
+            0.18
+        );
+
+    border-radius: 18px;
+
+    background:
+        rgba(
+            243,
+            203,
+            132,
+            0.04
+        );
+}
+
+.airforce-compensation-note svg {
+    flex-shrink: 0;
+
+    color: #F3CB84;
+}
+
+.airforce-compensation-note p {
+    margin: 0;
+
+    color: #BFC1C9;
+
+    font-size: 0.88rem;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   ELIGIBILITY NOTE
+========================================================= */
+
+.airforce-note {
+    width: 86%;
+
+    max-width: 1000px;
+
+    margin:
+        0
+        auto
+        90px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+    padding:
+        28px
+        30px;
+
+    border:
+        1px solid
+        rgba(
+            243,
+            203,
+            132,
+            0.2
+        );
+
+    border-radius: 20px;
+
+    background:
+        rgba(
+            243,
+            203,
+            132,
+            0.05
+        );
+}
+
+.airforce-note-icon {
+    width: 54px;
+
+    height: 54px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background:
+        rgba(
+            243,
+            203,
+            132,
+            0.1
+        );
+
+    color: #F3CB84;
+}
+
+.airforce-note h3 {
+    margin:
+        0
+        0
+        8px;
+
+    color: #F3CB84;
+
+    font-size: 1.1rem;
+}
+
+.airforce-note p {
+    margin: 0;
+
+    color: #C5C7CF;
+
+    line-height: 1.75;
+
+    font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+.airforce-final {
+    width: 86%;
+
+    max-width: 1000px;
+
+    margin:
+        0
+        auto
+        100px;
+
+    padding:
+        65px
+        45px;
+
+    text-align: center;
+
+    border:
+        1px
+        solid
+        rgba(
+            243,
+            203,
+            132,
+            0.22
+        );
+
+    border-radius: 28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(
+                243,
+                203,
+                132,
+                0.08
+            ),
+            rgba(
+                255,
+                255,
+                255,
+                0.025
+            )
+        );
+}
+
+.airforce-final-icon {
+    width: 70px;
+
+    height: 70px;
+
+    margin:
+        0
+        auto
+        25px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background: #E4BD77;
+
+    color: #06204D;
+}
+
+.airforce-final h2 {
+    margin: 0;
+
+    color: #F3CB84;
+
+    font-size:
+        clamp(
+            1.8rem,
+            4vw,
+            2.7rem
+        );
+}
+
+.airforce-final p {
+    max-width: 780px;
+
+    margin:
+        20px
+        auto
+        30px;
+
+    color: #C7C9D1;
+
+    line-height: 1.85;
+}
+
+.airforce-dashboard-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding:
+        13px
+        20px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #E4BD77;
+
+    color: #06204D;
+
+    font-size: 0.95rem;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease;
+}
+
+.airforce-dashboard-button:hover {
+    transform: translateY(-3px);
+
+    background: #F3CB84;
+}
+
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes airforceDropdown {
+
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
     }
 
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 
 }
 
-@keyframes dropdown{
 
-    from{
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-        opacity:0;
+@media (max-width: 950px) {
 
-        transform:translateY(-15px);
-
+    .airforce-stats,
+    .airforce-branch-grid {
+        grid-template-columns: 1fr;
     }
 
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-
-    }
-
-}
-
-@keyframes glow{
-
-    0%{
-
-        box-shadow:
-        0 0 15px rgba(243,203,132,.30);
-
-    }
-
-    50%{
-
-        box-shadow:
-        0 0 45px rgba(243,203,132,.80);
-
-    }
-
-    100%{
-
-        box-shadow:
-        0 0 15px rgba(243,203,132,.30);
-
+    .airforce-reality-grid,
+    .airforce-compensation-grid {
+        grid-template-columns: 1fr;
     }
 
 }
 
-@keyframes floating{
 
-    0%{
+@media (max-width: 700px) {
 
-        transform:translateY(0px);
-
+    .airforce-hero {
+        padding:
+            22px
+            5%
+            65px;
     }
 
-    50%{
-
-        transform:translateY(-8px);
-
+    .airforce-hero-content {
+        margin-top: 55px;
     }
 
-    100%{
+    .airforce-hero h1 {
+        font-size: 2.3rem;
+    }
 
-        transform:translateY(0px);
+    .airforce-roadmap,
+    .airforce-orientation,
+    .airforce-reality,
+    .airforce-compensation {
+        width: 92%;
+    }
 
+    .airforce-timeline-item {
+        grid-template-columns:
+            55px
+            1fr;
+
+        gap: 10px;
+    }
+
+    .airforce-timeline-circle {
+        width: 48px;
+        height: 48px;
+    }
+
+    .airforce-timeline-line {
+        top: 48px;
+        width: 2px;
+    }
+
+    .airforce-timeline-title {
+        min-height: 75px;
+
+        padding:
+            17px
+            18px;
+
+        border-radius: 15px;
+    }
+
+    .airforce-timeline-title strong {
+        font-size: 0.97rem;
+    }
+
+    .airforce-dropdown {
+        padding:
+            22px
+            20px;
+    }
+
+    .airforce-dropdown-item p {
+        font-size: 0.9rem;
+        line-height: 1.65;
+    }
+
+    .airforce-note {
+        width: 92%;
+    }
+
+    .airforce-final {
+        width: 92%;
+
+        padding:
+            45px
+            22px;
     }
 
 }
 
-/* =====================================================
-                RESPONSIVE
-===================================================== */
 
-@media(max-width:1100px){
+@media (max-width: 480px) {
 
-.hero h1{
+    .airforce-hero h1 {
+        font-size: 1.85rem;
+    }
 
-    font-size:2.7rem;
+    .airforce-hero-content > p {
+        font-size: 0.92rem;
+    }
 
-}
+    .airforce-stat-card {
+        padding: 25px;
+    }
 
-.hero p{
+    .airforce-timeline-item {
+        grid-template-columns:
+            50px
+            1fr;
+    }
 
-    width:90%;
+    .airforce-timeline-circle {
+        width: 44px;
+        height: 44px;
+    }
 
-}
+    .airforce-timeline-line {
+        top: 44px;
+    }
 
-.timeline{
+    .airforce-timeline-title {
+        padding:
+            15px;
+    }
 
-    width:92%;
+    .airforce-timeline-title strong {
+        font-size: 0.9rem;
+    }
 
-}
+    .airforce-dropdown {
+        padding:
+            18px;
+    }
 
-.career{
+    .airforce-dropdown-heading {
+        font-size: 0.94rem;
+    }
 
-    width:92%;
+    .airforce-dropdown-item p {
+        font-size: 0.86rem;
+    }
 
-}
+    .airforce-compensation-card {
+        padding: 25px;
+    }
 
-}
+    .airforce-compensation-card h3 {
+        font-size: 1.3rem;
+    }
 
-@media(max-width:900px){
+    .airforce-compensation-note {
+        flex-direction: column;
 
-.stats{
+        padding: 20px;
+    }
 
-    grid-template-columns:1fr;
+    .airforce-note {
+        flex-direction: column;
 
-}
-
-.career-container{
-
-    grid-template-columns:1fr;
-
-}
-
-.timeline-item{
-
-    gap:22px;
-
-}
-
-.circle{
-
-    width:70px;
-
-    height:70px;
-
-}
-
-.circle svg{
-
-    width:30px;
-
-    height:30px;
-
-}
-
-.line{
-
-    height:130px;
-
-}
-
-.title h2{
-
-    font-size:1.15rem;
+        padding: 23px;
+    }
 
 }
 
-/* Dropdown becomes normal flow on tablets */
 
-.dropdown{
+/* =========================================================
+   SCROLLBAR
+========================================================= */
 
-    position:relative;
-
-    top:15px;
-
-    width:100%;
-
-    margin-bottom:20px;
-
+.airforce-page::-webkit-scrollbar {
+    width: 9px;
 }
 
+.airforce-page::-webkit-scrollbar-track {
+    background: #02071A;
 }
 
-@media(max-width:700px){
+.airforce-page::-webkit-scrollbar-thumb {
+    background: #E4BD77;
 
-.hero{
-
-    padding:50px 20px;
-
+    border-radius: 20px;
 }
 
-.hero h1{
-
-    font-size:2.2rem;
-
-}
-
-.hero p{
-
-    width:100%;
-
-    font-size:1rem;
-
-}
-
-.timeline{
-
-    width:95%;
-
-}
-
-.timeline-item{
-
-    gap:15px;
-
-}
-
-.circle{
-
-    width:60px;
-
-    height:60px;
-
-}
-
-.circle svg{
-
-    width:24px;
-
-    height:24px;
-
-}
-
-.line{
-
-    width:4px;
-
-    height:120px;
-
-}
-
-.title{
-
-    padding:18px;
-
-}
-
-.title h2{
-
-    font-size:1rem;
-
-}
-
-.dropdown{
-
-    padding:18px;
-
-}
-
-.dropdown-heading{
-
-    font-size:1rem;
-
-}
-
-.dropdown-item{
-
-    font-size:.93rem;
-
-    line-height:1.8;
-
-}
-
-.career h1{
-
-    font-size:2rem;
-
-}
-
-.career-card{
-
-    padding:25px;
-
-}
-
-}
-
-@media(max-width:480px){
-
-.hero h1{
-
-    font-size:1.8rem;
-
-}
-
-.hero p{
-
-    font-size:.95rem;
-
-}
-
-.stat-card{
-
-    padding:25px;
-
-}
-
-.stat-card h3{
-
-    font-size:1.3rem;
-
-}
-
-.timeline-item{
-
-    gap:12px;
-
-}
-
-.circle{
-
-    width:52px;
-
-    height:52px;
-
-}
-
-.circle svg{
-
-    width:20px;
-
-    height:20px;
-
-}
-
-.line{
-
-    height:100px;
-
-}
-
-.title{
-
-    padding:16px;
-
-}
-
-.title h2{
-
-    font-size:.92rem;
-
-}
-
-.dropdown{
-
-    width:100%;
-
-    padding:16px;
-
-}
-
-.dropdown-heading{
-
-    font-size:.95rem;
-
-}
-
-.dropdown-item{
-
-    margin-left:6px;
-
-    font-size:.9rem;
-
-}
-
-.career h1{
-
-    font-size:1.7rem;
-
-}
-
-.career-card h2{
-
-    font-size:1.2rem;
-
-}
-
-.career-card p{
-
-    font-size:.9rem;
-
-}
-
-}
-
-.arrow{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    transition:.35s;
-
-    color:#F3CB84;
-
-}
-
-.arrow.rotate{
-
-    transform:rotate(180deg);
-
+.airforce-page::-webkit-scrollbar-thumb:hover {
+    background: #F3CB84;
 }

@@ -1,175 +1,259 @@
 .login-page {
-  width: 100%;
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-  background: #071329;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: #071329;
 }
 
 /* ================= LOGO ================= */
 
 .login-logo {
-  position: absolute;
-  z-index: 3;
+    position: absolute;
+    z-index: 3;
 }
 
 .login-logo img {
-  width: 300%;
-  height: auto;
-  display: block;
+    width: 300%;
+    height: auto;
+    display: block;
 }
 
 /* ================= BACKGROUND ================= */
 
 .login-background {
-  position: absolute;
-  inset: 0;
+    position: absolute;
+    inset: 0;
 
-  background-image: url("/images/signup-bg.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+    background-image: url("/images/signup-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
-  z-index: 0;
+    z-index: 0;
 }
 
 /* ================= LOGIN FORM ================= */
 
 .login-form {
-  position: absolute;
-  z-index: 2;
+    position: absolute;
+    z-index: 2;
 
-  left: 42%;
-  top: 28%;
+    left: 42%;
+    top: 28%;
 
-  width: 300px;
+    width: 300px;
 
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
 }
 
 /* ================= INPUT GROUP ================= */
 
 .login-form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 /* ================= LABELS ================= */
 
 .login-form-group label {
-  color: #FEFEFE;
-  font-family: "Inria Serif";
-  font-size: 25px;
-  font-weight: 700;
+    color: #FEFEFE;
+
+    font-family: "Inria Serif";
+
+    font-size: 25px;
+    font-weight: 700;
 }
 
 /* ================= INPUT ================= */
 
 .login-form-group input {
-  width: 100%;
-  height: 40px;
+    width: 100%;
+    height: 40px;
 
-  border-radius: 16px;
-  border: 2px solid black;
-  outline: none;
+    box-sizing: border-box;
 
-  padding: 8px 12px;
+    border-radius: 16px;
+    border: 2px solid black;
 
-  background: #f5d99a;
+    outline: none;
 
-  font-family: "Inria Serif";
-  font-size: 18px;
+    padding: 8px 12px;
 
-  color: #111;
+    background: #f5d99a;
 
-  transition: 0.25s;
+    font-family: "Inria Serif";
+    font-size: 18px;
+
+    color: #111;
+
+    transition: 0.25s;
 }
 
 .login-form-group input:focus {
-  box-shadow: 0 0 0 2px white;
+    box-shadow: 0 0 0 2px white;
 }
 
-/* ================= BUTTON ================= */
+/* ================= PASSWORD WRAPPER ================= */
 
-.login-form button {
-  align-self: flex-start;
-
-  margin-top: 15px;
-
-  padding: 13px 28px;
-
-  border-radius: 30px;
-
-  border: 2px solid #FEFEFE;
-
-  background: transparent;
-
-  color: #FEFEFE;
-
-  font-family: "Inria Serif";
-  font-size: 20px;
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition: 0.25s;
+.password-input-wrapper {
+    position: relative;
+    width: 100%;
 }
 
-.login-form button:hover {
-  background: #f5d99a;
-  color: black;
-  transform: scale(1.05);
+.password-input-wrapper input {
+    padding-right: 52px;
 }
 
-.login-form button:active {
-  transform: scale(0.95);
+/* ================= EYE BUTTON ================= */
+
+.password-toggle {
+    position: absolute;
+
+    right: 12px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 30px;
+    height: 30px;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: #111;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: none;
+}
+
+.password-toggle svg {
+    width: 21px;
+    height: 21px;
+
+    display: block;
+}
+
+.password-toggle:hover {
+    transform: translateY(-50%);
+
+    background: transparent;
+    border: none;
+
+    color: #111;
+}
+
+.password-toggle:active {
+    transform: translateY(-50%);
+
+    background: transparent;
+    border: none;
+}
+
+.password-toggle:focus {
+    outline: none;
+}
+
+/* ================= LOGIN BUTTON ================= */
+
+.login-form > button[type="submit"] {
+    align-self: flex-start;
+
+    margin-top: 15px;
+
+    padding: 13px 28px;
+
+    border-radius: 30px;
+
+    border: 2px solid #FEFEFE;
+
+    background: transparent;
+
+    color: #FEFEFE;
+
+    font-family: "Inria Serif";
+
+    font-size: 20px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.login-form > button[type="submit"]:hover {
+    background: #f5d99a;
+
+    color: black;
+
+    transform: scale(1.05);
+}
+
+.login-form > button[type="submit"]:active {
+    transform: scale(0.95);
 }
 
 /* ================= ERROR ================= */
 
 .login-error {
-  color: white;
-  font-size: 16px;
-  font-weight: 700;
-  margin: 0;
+    color: white;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    margin: 0;
 }
 
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 992px) {
 
-  .login-form {
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
+    .login-form {
+        left: 50%;
+        top: 50%;
+
+        transform: translate(-50%, -50%);
+    }
 
 }
 
 @media (max-width: 600px) {
 
-  .login-form {
-    width: 90%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
+    .login-form {
+        width: 90%;
 
-  .login-form-group label {
-    font-size: 22px;
-  }
+        left: 50%;
+        top: 50%;
 
-  .login-form-group input {
-    font-size: 16px;
-  }
+        transform: translate(-50%, -50%);
+    }
 
-  .login-form button {
-    width: 100%;
-    text-align: center;
-    align-self: center;
-  }
+    .login-form-group label {
+        font-size: 22px;
+    }
+
+    .login-form-group input {
+        font-size: 16px;
+    }
+
+    .login-form > button[type="submit"] {
+        width: 100%;
+
+        text-align: center;
+        align-self: center;
+    }
 
 }

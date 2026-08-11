@@ -1,18 +1,41 @@
-import React from 'react'
-import "./Accountcreated.css"
+import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import "./Accountcreated.css";
 
 const Accountcreated = () => {
-  return (
-    <div className = "created">
-        <div className = "created-headline">
-          🎉 Account created successfully!
-          </div>
-        <div className = "created-subline">
-        Let's personalize your journey.
-          </div>
-        <button className='begin'>Let's Begin</button>
-    </div>
-  )
-}
+    const navigate = useNavigate();
+    const location = useLocation();
 
-export default Accountcreated
+    const email = location.state?.email;
+
+    return (
+        <div className="created">
+
+            <div className="created-headline">
+                🎉 Account created successfully!
+            </div>
+
+            <div className="created-subline">
+                Please check your email to verify your account.
+            </div>
+
+            {email && (
+                <div className="created-subline">
+                    Verification email sent to
+                    <br />
+                    <strong>{email}</strong>
+                </div>
+            )}
+
+            <button
+                className="begin"
+                onClick={() => navigate("/login")}
+            >
+                Go to Login
+            </button>
+
+        </div>
+    );
+};
+
+export default Accountcreated;
