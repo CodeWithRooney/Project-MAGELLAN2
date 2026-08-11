@@ -1,7 +1,8 @@
 from .auth import (
-    UserRegister,
-    LoginRequest,
     AuthResponse,
+    LoginRequest,
+    RegisterResponse,
+    UserRegister,
 )
 
 from .password import (

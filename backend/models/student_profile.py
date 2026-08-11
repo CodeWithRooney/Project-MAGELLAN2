@@ -5,13 +5,19 @@ from sqlalchemy import (
     String,
     Text,
 )
+
 from sqlalchemy.orm import relationship
 
 from database import Base
 
 
 class StudentProfile(Base):
+
     __tablename__ = "profiles"
+
+    # ==========================
+    # Primary Information
+    # ==========================
 
     id = Column(
         Integer,
@@ -35,6 +41,16 @@ class StudentProfile(Base):
         nullable=False,
     )
 
+    age = Column(
+        Integer,
+        nullable=False,
+    )
+
+    gender = Column(
+        String(50),
+        nullable=False,
+    )
+
     state = Column(
         String(100),
         nullable=False,
@@ -45,35 +61,28 @@ class StudentProfile(Base):
         nullable=False,
     )
 
-    education_level = Column(
+    current_class_year = Column(
         String(100),
         nullable=False,
     )
 
-    board_or_university = Column(
+    board = Column(
         String(150),
         nullable=False,
     )
 
     # ==========================
-    # Academic Information
+    # Interests
     # ==========================
 
-    percentage = Column(
-        String(20),
+    interests = Column(
+        String(150),
         nullable=False,
-    )
-
-    highest_subject = Column(
-        String(100),
-    )
-
-    lowest_subject = Column(
-        String(100),
     )
 
     favorite_subject = Column(
         String(100),
+        nullable=False,
     )
 
     # ==========================
@@ -82,26 +91,21 @@ class StudentProfile(Base):
 
     technical_skills = Column(
         Text,
+        nullable=False,
     )
 
     soft_skills = Column(
         Text,
+        nullable=False,
     )
 
     # ==========================
-    # Interests
+    # Hobbies
     # ==========================
 
     hobbies = Column(
         Text,
-    )
-
-    career_interests = Column(
-        Text,
-    )
-
-    preferred_career_field = Column(
-        String(150),
+        nullable=False,
     )
 
     # ==========================
@@ -110,26 +114,17 @@ class StudentProfile(Base):
 
     career_goal_decided = Column(
         String(20),
+        nullable=False,
     )
 
     career_goal = Column(
         String(255),
+        nullable=True,
     )
 
-    preferred_study_country = Column(
-        String(100),
-    )
-
-    # ==========================
-    # Portfolio
-    # ==========================
-
-    github_url = Column(
-        String(255),
-    )
-
-    linkedin_url = Column(
-        String(255),
+    higher_studies_abroad = Column(
+        String(20),
+        nullable=False,
     )
 
     # ==========================

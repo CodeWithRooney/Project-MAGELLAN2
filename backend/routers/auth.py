@@ -8,18 +8,25 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 
+from utils.email_verification import (
+    verify_email_verification_token,
+)
+
+from models import User
+
 from exceptions import (
+    EmailNotVerifiedError,
     InvalidPasswordError,
     UserAlreadyExistsError,
     UserNotFoundError,
 )
 
-from schemas.auth import (
+from schemas import (
     AuthResponse,
     LoginRequest,
+    RegisterResponse,
+    UserRegister,
 )
-
-from schemas.user import UserRegister
 
 from services.auth_service import (
     login_user,
@@ -35,7 +42,7 @@ router = APIRouter(
 
 @router.post(
     "/register",
-    response_model=AuthResponse,
+    response_model=RegisterResponse,
     status_code=status.HTTP_201_CREATED,
     summary="Register a new user",
 )
@@ -65,15 +72,14 @@ def register(
     "/login",
     response_model=AuthResponse,
     status_code=status.HTTP_200_OK,
-    summary="Authenticate a user",
+    summary="Login user",
 )
 def login(
     user: LoginRequest,
     db: Session = Depends(get_db),
 ) -> AuthResponse:
     """
-    Authenticates a user and
-    returns a JWT access token.
+    Authenticate a user.
     """
 
     try:
@@ -93,3 +99,52 @@ def login(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=str(e),
         )
+
+    except EmailNotVerifiedError as e:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=str(e),
+        )
+    
+
+@router.get(
+    "/verify-email",
+    summary="Verify user email",
+)
+def verify_email(
+    token: str,
+    db: Session = Depends(get_db),
+) -> dict:
+    try:
+        user_id = verify_email_verification_token(token)
+
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid or expired verification link.",
+        )
+
+    user = (
+        db.query(User)
+        .filter(User.id == user_id)
+        .first()
+    )
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found.",
+        )
+
+    if user.email_verified:
+        return {
+            "message": "Email is already verified."
+        }
+
+    user.email_verified = True
+
+    db.commit()
+
+    return {
+        "message": "Email verified successfully."
+    }

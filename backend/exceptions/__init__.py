@@ -1,7 +1,8 @@
 from .auth import (
+    EmailNotVerifiedError,
+    InvalidPasswordError,
     UserAlreadyExistsError,
     UserNotFoundError,
-    InvalidPasswordError,
 )
 
 from .user import (

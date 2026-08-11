@@ -2,12 +2,6 @@ from pydantic import BaseModel, EmailStr, Field
 
 
 class UserRegister(BaseModel):
-    name: str = Field(
-        ...,
-        min_length=2,
-        max_length=100,
-    )
-
     email: EmailStr
 
     password: str = Field(
@@ -25,5 +19,12 @@ class LoginRequest(BaseModel):
 class AuthResponse(BaseModel):
     access_token: str
     token_type: str
+    user_id: int
+    email: EmailStr
+    profile_completed: bool
+
+
+class RegisterResponse(BaseModel):
+    message: str
     user_id: int
     email: EmailStr

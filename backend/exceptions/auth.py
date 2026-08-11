@@ -26,4 +26,13 @@ __all__ = [
     "UserAlreadyExistsError",
     "UserNotFoundError",
     "InvalidPasswordError",
+    "EmailNotVerifiedError",
 ]
+
+class EmailNotVerifiedError(Exception):
+    """
+    Raised when a user tries to log in
+    before verifying their email.
+    """
+
+    pass

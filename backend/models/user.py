@@ -23,7 +23,7 @@ class User(Base):
 
     name = Column(
         String(100),
-        nullable=False,
+        nullable=True,
     )
 
     email = Column(
@@ -31,6 +31,12 @@ class User(Base):
         unique=True,
         index=True,
         nullable=False,
+    )
+
+    email_verified = Column(
+    Boolean,
+    default=False,
+    nullable=False,
     )
 
     hashed_password = Column(

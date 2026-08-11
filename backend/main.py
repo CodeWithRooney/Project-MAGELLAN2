@@ -63,3 +63,4 @@ async def opportunity_not_found_handler(
             "detail": str(exc),
         },
     )
+

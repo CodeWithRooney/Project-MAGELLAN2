@@ -1,27 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, EmailStr, Field
-
-
-# ==========================================
-# User Registration
-# ==========================================
-
-class UserRegister(BaseModel):
-
-    name: str = Field(
-        ...,
-        min_length=2,
-        max_length=100,
-    )
-
-    email: EmailStr
-
-    password: str = Field(
-        ...,
-        min_length=8,
-        max_length=128,
-    )
+from pydantic import BaseModel, Field
 
 
 # ==========================================
@@ -40,43 +19,43 @@ class StudentProfileCreate(BaseModel):
         max_length=100,
     )
 
+    age: int = Field(
+        ...,
+        ge=10,
+        le=100,
+    )
+
+    gender: str
+
     state: str
 
     school_college: str
 
-    education_level: str
+    current_class_year: str
 
-    board_or_university: str
-
-    # ==========================
-    # Academic Information
-    # ==========================
-
-    percentage: str
-
-    highest_subject: Optional[str] = None
-
-    lowest_subject: Optional[str] = None
-
-    favorite_subject: Optional[str] = None
-
-    # ==========================
-    # Skills
-    # ==========================
-
-    technical_skills: Optional[str] = None
-
-    soft_skills: Optional[str] = None
+    board: str
 
     # ==========================
     # Interests
     # ==========================
 
-    hobbies: Optional[str] = None
+    interests: str
 
-    career_interests: Optional[str] = None
+    favorite_subject: str
 
-    preferred_career_field: Optional[str] = None
+    # ==========================
+    # Skills
+    # ==========================
+
+    technical_skills: str
+
+    soft_skills: str
+
+    # ==========================
+    # Hobbies
+    # ==========================
+
+    hobbies: str
 
     # ==========================
     # Career Goals
@@ -86,15 +65,7 @@ class StudentProfileCreate(BaseModel):
 
     career_goal: Optional[str] = None
 
-    preferred_study_country: Optional[str] = None
-
-    # ==========================
-    # Portfolio
-    # ==========================
-
-    github_url: Optional[str] = None
-
-    linkedin_url: Optional[str] = None
+    higher_studies_abroad: str
 
 
 # ==========================================
