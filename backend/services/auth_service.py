@@ -125,6 +125,12 @@ def login_user(
     .first()
 )
 
+    print("USER FOUND:", existing_user is not None)
+
+    if existing_user:
+        print("USER ID:", existing_user.id)
+        print("USER EMAIL:", repr(existing_user.email))
+
     # Verify password
     if not verify_password(
         user.password,
