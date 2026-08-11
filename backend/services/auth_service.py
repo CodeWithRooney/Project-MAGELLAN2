@@ -1,3 +1,5 @@
+import os
+
 from sqlalchemy.orm import Session
 
 from exceptions import (
@@ -110,17 +112,18 @@ def login_user(
     # Normalize email
     normalized_email = str(user.email).strip().lower()
 
+    print("LOGIN EMAIL:", repr(normalized_email))
+    print(
+    "DATABASE:",
+    os.getenv("DATABASE_URL", "").split("/")[-1]
+)
+
     # Find user
     existing_user = (
-        db.query(User)
-        .filter(User.email == normalized_email)
-        .first()
-    )
-
-    if not existing_user:
-        raise UserNotFoundError(
-            "User not found."
-        )
+    db.query(User)
+    .filter(User.email == normalized_email)
+    .first()
+)
 
     # Verify password
     if not verify_password(

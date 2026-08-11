@@ -20,7 +20,7 @@ const VerifyEmail = () => {
     const verifyEmail = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/auth/verify-email?token=${encodeURIComponent(token)}`,
+  `${import.meta.env.VITE_API_URL}/auth/verify-email?token=${encodeURIComponent(token)}`,
           {
             method: "GET",
           }
