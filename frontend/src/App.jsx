@@ -17,7 +17,7 @@ import Pilot from "./pages/pilot/Pilot";
 import Ias from "./pages/ias/Ias";
 import Army from "./pages/army/Army";
 import Airforce from "./pages/airforce/Airforce";
-import Navy from "./pages/navy/navy"
+import Navy from "./pages/navy/Navy";
 import Teacher from "./pages/teacher/Teacher"
 import Actor from "./pages/actor/Actor"
 import Archaeologist from "./pages/archaeologist/Archaeologist"
