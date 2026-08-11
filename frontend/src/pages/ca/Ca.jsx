@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./CA.css";
+import "./Ca.css";
 
 import {
   GraduationCap,
