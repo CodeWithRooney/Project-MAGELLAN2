@@ -1,6 +1,7 @@
+import json
 import os
-import smtplib
-from email.message import EmailMessage
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 
 from dotenv import load_dotenv
 
@@ -8,13 +9,15 @@ load_dotenv()
 
 
 # ============================================================
-# SMTP CONFIGURATION
+# BREVO CONFIGURATION
 # ============================================================
 
-SMTP_HOST = os.getenv("SMTP_HOST")
-SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
-SMTP_USERNAME = os.getenv("SMTP_USERNAME")
-SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+BREVO_API_KEY = os.getenv("BREVO_API_KEY")
+BREVO_SENDER_EMAIL = os.getenv("BREVO_SENDER_EMAIL")
+BREVO_SENDER_NAME = os.getenv(
+    "BREVO_SENDER_NAME",
+    "Magellan",
+)
 
 FRONTEND_URL = os.getenv(
     "FRONTEND_URL",
@@ -26,19 +29,14 @@ FRONTEND_URL = os.getenv(
 # ENVIRONMENT VALIDATION
 # ============================================================
 
-if not SMTP_HOST:
+if not BREVO_API_KEY:
     raise RuntimeError(
-        "SMTP_HOST is not configured in the environment."
+        "BREVO_API_KEY is not configured in the environment."
     )
 
-if not SMTP_USERNAME:
+if not BREVO_SENDER_EMAIL:
     raise RuntimeError(
-        "SMTP_USERNAME is not configured in the environment."
-    )
-
-if not SMTP_PASSWORD:
-    raise RuntimeError(
-        "SMTP_PASSWORD is not configured in the environment."
+        "BREVO_SENDER_EMAIL is not configured in the environment."
     )
 
 if not FRONTEND_URL:
@@ -56,23 +54,14 @@ def send_verification_email(
     verification_token: str,
 ) -> None:
     """
-    Sends a professional Magellan email verification message.
+    Sends a professional Magellan email verification message
+    using the Brevo HTTP API.
     """
 
     verification_link = (
         f"{FRONTEND_URL.rstrip('/')}"
         f"/verify-email?token={verification_token}"
     )
-
-    # ========================================================
-    # EMAIL MESSAGE
-    # ========================================================
-
-    message = EmailMessage()
-
-    message["Subject"] = "Verify your Magellan account"
-    message["From"] = f"Magellan <{SMTP_USERNAME}>"
-    message["To"] = recipient_email
 
     # ========================================================
     # PLAIN TEXT VERSION
@@ -94,11 +83,7 @@ If you did not create a Magellan account, you can safely ignore
 this email.
 
 Magellan Team
-"""
-
-    message.set_content(
-        plain_text.strip()
-    )
+""".strip()
 
     # ========================================================
     # HTML VERSION
@@ -400,33 +385,68 @@ Magellan Team
 </html>
 """
 
-    message.add_alternative(
-        html_content,
-        subtype="html",
-    )
+    # ========================================================
+    # BREVO API PAYLOAD
+    # ========================================================
+
+    payload = {
+        "sender": {
+            "name": BREVO_SENDER_NAME,
+            "email": BREVO_SENDER_EMAIL,
+        },
+        "to": [
+            {
+                "email": recipient_email,
+            }
+        ],
+        "subject": "Verify your Magellan account",
+        "textContent": plain_text,
+        "htmlContent": html_content,
+    }
 
     # ========================================================
-    # SEND THROUGH GMAIL SMTP
+    # BREVO API REQUEST
     # ========================================================
+
+    request = Request(
+        "https://api.brevo.com/v3/smtp/email",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "accept": "application/json",
+            "api-key": BREVO_API_KEY,
+            "content-type": "application/json",
+        },
+        method="POST",
+    )
 
     try:
 
-        with smtplib.SMTP(
-            SMTP_HOST,
-            SMTP_PORT,
-        ) as server:
+        with urlopen(request, timeout=30) as response:
+            response_body = response.read().decode("utf-8")
 
-            server.starttls()
+            if response.status < 200 or response.status >= 300:
+                raise RuntimeError(
+                    f"Brevo returned HTTP {response.status}: "
+                    f"{response_body}"
+                )
 
-            server.login(
-                SMTP_USERNAME,
-                SMTP_PASSWORD,
-            )
+    except HTTPError as e:
 
-            server.send_message(message)
+        error_body = e.read().decode("utf-8", errors="replace")
+
+        raise RuntimeError(
+            f"Brevo email sending failed "
+            f"(HTTP {e.code}): {error_body}"
+        ) from e
+
+    except URLError as e:
+
+        raise RuntimeError(
+            f"Could not connect to Brevo: {e.reason}"
+        ) from e
 
     except Exception as e:
 
         raise RuntimeError(
             f"Failed to send verification email: {str(e)}"
-        )
+        ) from e
