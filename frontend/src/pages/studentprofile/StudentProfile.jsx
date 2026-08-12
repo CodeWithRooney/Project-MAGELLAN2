@@ -8,7 +8,6 @@ import { technicalSkills } from "./technicalSkills";
 import { softSkills } from "./softSkills";
 import { hobbies } from "./hobbies";
 
-
 // =====================================================
 // INTEREST OPTIONS
 // =====================================================
@@ -30,7 +29,6 @@ const interestOptions = [
     "Defence and Armed Forces",
     "Writing and Communication",
 ];
-
 
 // =====================================================
 // FAVOURITE SUBJECT OPTIONS
@@ -56,7 +54,6 @@ const subjectOptions = [
     "Art",
     "Other",
 ];
-
 
 // =====================================================
 // REGISTERED MAGELLAN CAREERS
@@ -85,7 +82,6 @@ const careerOptions = [
     "Historian",
 ];
 
-
 // =====================================================
 // STEP ICONS
 // =====================================================
@@ -107,7 +103,6 @@ const PersonalProfileIcon = () => (
     </svg>
 );
 
-
 const InterestsIcon = () => (
     <svg
         viewBox="0 0 24 24"
@@ -123,7 +118,6 @@ const InterestsIcon = () => (
         <path d="M9 14.5h6" />
     </svg>
 );
-
 
 const SkillsGoalsIcon = () => (
     <svg
@@ -150,24 +144,20 @@ const SkillsGoalsIcon = () => (
     </svg>
 );
 
-
 // =====================================================
 // STUDENT PROFILE
 // =====================================================
 
 const StudentProfile = () => {
-
     const navigate = useNavigate();
 
     const [step, setStep] = useState(1);
-
 
     // =====================================================
     // PERSONAL INFORMATION
     // =====================================================
 
     const [personalData, setPersonalData] = useState({
-
         full_name: "",
         age: "",
         gender: "",
@@ -175,28 +165,22 @@ const StudentProfile = () => {
         school_college: "",
         current_class_year: "",
         board: "",
-
     });
-
 
     // =====================================================
     // INTERESTS
     // =====================================================
 
     const [interestData, setInterestData] = useState({
-
         interest: "",
         favorite_subject: "",
-
     });
-
 
     // =====================================================
     // SKILLS
     // =====================================================
 
     const [skillsData, setSkillsData] = useState({
-
         technical: [],
         soft: [],
         hobbies: [],
@@ -204,173 +188,127 @@ const StudentProfile = () => {
         customTechnical: "",
         customSoft: "",
         customHobby: "",
-
     });
-
 
     // =====================================================
     // CAREER INFORMATION
     // =====================================================
 
     const [careerData, setCareerData] = useState({
-
         career_goal_decided: "",
         career_goal: "",
         higher_studies_abroad: "",
-
     });
-
 
     // =====================================================
     // HANDLE PERSONAL DATA
     // =====================================================
 
     const handlePersonalChange = (e) => {
-
         const { name, value } = e.target;
 
         setPersonalData((prev) => ({
-
             ...prev,
             [name]: value,
-
         }));
-
     };
-
 
     // =====================================================
     // HANDLE INTEREST DATA
     // =====================================================
 
     const handleInterestChange = (e) => {
-
         const { name, value } = e.target;
 
         setInterestData((prev) => ({
-
             ...prev,
             [name]: value,
-
         }));
-
     };
-
 
     // =====================================================
     // STEP 2 SUBMIT
     // =====================================================
 
     const handleInterestSubmit = () => {
-
         if (interestData.interest === "") {
-
             alert("Please select your primary interest.");
-
             return;
         }
 
         if (interestData.favorite_subject === "") {
-
             alert("Please select your favourite subject.");
-
             return;
         }
 
         setStep(3);
     };
 
-
     // =====================================================
     // HANDLE CAREER DATA
     // =====================================================
 
     const handleCareerChange = (e) => {
-
         const { name, value } = e.target;
 
         setCareerData((prev) => ({
-
             ...prev,
             [name]: value,
-
         }));
 
         if (
             name === "career_goal_decided" &&
             value !== "Yes"
         ) {
-
             setCareerData((prev) => ({
-
                 ...prev,
                 career_goal: "",
-
             }));
-
         }
-
     };
-
 
     // =====================================================
     // HANDLE MULTI SELECT
     // =====================================================
 
     const handleMultiSelect = (category, value) => {
-
         setSkillsData((prev) => {
-
             const exists = prev[category].includes(value);
 
             return {
-
                 ...prev,
 
                 [category]: exists
-
                     ? prev[category].filter(
                         (item) => item !== value
                     )
-
                     : [
                         ...prev[category],
-                        value
+                        value,
                     ],
-
             };
-
         });
-
     };
-
 
     // =====================================================
     // HANDLE CUSTOM INPUT
     // =====================================================
 
     const handleCustomInput = (e) => {
-
         const { name, value } = e.target;
 
         setSkillsData((prev) => ({
-
             ...prev,
             [name]: value,
-
         }));
-
     };
-
 
     // =====================================================
     // STEP 1 SUBMIT
     // =====================================================
 
     const handlePersonalSubmit = () => {
-
         if (
-
             personalData.full_name === "" ||
             personalData.age === "" ||
             personalData.gender === "" ||
@@ -378,60 +316,56 @@ const StudentProfile = () => {
             personalData.school_college === "" ||
             personalData.current_class_year === "" ||
             personalData.board === ""
-
         ) {
-
             alert(
                 "Please fill all personal and education details."
             );
 
             return;
-
         }
 
+        const age = Number(personalData.age);
+
+        if (age < 10 || age > 100) {
+            alert(
+                "Age must be between 10 and 100 years."
+            );
+
+            return;
+        }
 
         if (
             personalData.current_class_year !== "Class 10"
         ) {
-
             alert(
                 "The current prototype supports Class 10 students only."
             );
 
             return;
-
         }
-
 
         if (
             personalData.board !== "CBSE"
         ) {
-
             alert(
                 "The current prototype supports CBSE students only."
             );
 
             return;
-
         }
 
-
         setStep(2);
-
     };
-
 
     // =====================================================
     // STEP 3 SUBMIT
     // =====================================================
 
     const handleFinalSubmit = async () => {
-
         if (
             skillsData.technical.length === 0 &&
             skillsData.customTechnical.trim() === ""
         ) {
-
             alert(
                 "Please select at least one technical skill."
             );
@@ -439,12 +373,10 @@ const StudentProfile = () => {
             return;
         }
 
-
         if (
             skillsData.soft.length === 0 &&
             skillsData.customSoft.trim() === ""
         ) {
-
             alert(
                 "Please select at least one soft skill."
             );
@@ -452,12 +384,10 @@ const StudentProfile = () => {
             return;
         }
 
-
         if (
             skillsData.hobbies.length === 0 &&
             skillsData.customHobby.trim() === ""
         ) {
-
             alert(
                 "Please select at least one hobby."
             );
@@ -465,9 +395,7 @@ const StudentProfile = () => {
             return;
         }
 
-
         if (careerData.career_goal_decided === "") {
-
             alert(
                 "Please select whether you have decided your career goal."
             );
@@ -475,12 +403,10 @@ const StudentProfile = () => {
             return;
         }
 
-
         if (
             careerData.career_goal_decided === "Yes" &&
             careerData.career_goal === ""
         ) {
-
             alert(
                 "Please select your career goal."
             );
@@ -488,9 +414,7 @@ const StudentProfile = () => {
             return;
         }
 
-
         if (careerData.higher_studies_abroad === "") {
-
             alert(
                 "Please select whether you have plans for higher studies abroad."
             );
@@ -498,42 +422,31 @@ const StudentProfile = () => {
             return;
         }
 
-
         const technicalSkills = [
-
             ...skillsData.technical,
 
             ...(skillsData.customTechnical.trim()
                 ? [skillsData.customTechnical.trim()]
                 : []),
-
         ].join(", ");
 
-
         const softSkills = [
-
             ...skillsData.soft,
 
             ...(skillsData.customSoft.trim()
                 ? [skillsData.customSoft.trim()]
                 : []),
-
         ].join(", ");
 
-
         const hobbyList = [
-
             ...skillsData.hobbies,
 
             ...(skillsData.customHobby.trim()
                 ? [skillsData.customHobby.trim()]
                 : []),
-
         ].join(", ");
 
-
         const profileData = {
-
             full_name:
                 personalData.full_name,
 
@@ -580,26 +493,15 @@ const StudentProfile = () => {
 
             higher_studies_abroad:
                 careerData.higher_studies_abroad,
-
         };
 
-
-        console.log(
-            "Profile data being sent:",
-            profileData
-        );
-
-
         try {
-
             const token =
                 localStorage.getItem(
                     "access_token"
                 );
 
-
             if (!token) {
-
                 alert(
                     "You are not logged in. Please login again."
                 );
@@ -607,71 +509,45 @@ const StudentProfile = () => {
                 navigate("/login");
 
                 return;
-
             }
-
 
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/user/profile`,
                 {
-
                     method: "POST",
 
                     headers: {
-
                         "Content-Type":
                             "application/json",
 
                         "Authorization":
                             `Bearer ${token}`,
-
                     },
 
                     body:
                         JSON.stringify(
                             profileData
                         ),
-
                 }
             );
-
 
             const data =
                 await response.json();
 
-
-            console.log(
-                "Profile API response:",
-                data
-            );
-
-
             if (!response.ok) {
-
-                console.error(
-                    "Profile creation failed:",
-                    data
-                );
-
-
                 if (response.status === 401) {
-
                     alert(
                         "Your session has expired. Please login again."
                     );
-
 
                     localStorage.removeItem(
                         "access_token"
                     );
 
-
                     navigate("/login");
 
                     return;
-
                 }
-
 
                 alert(
                     data.detail ||
@@ -679,47 +555,26 @@ const StudentProfile = () => {
                 );
 
                 return;
-
             }
-
-
-            console.log(
-                "Profile created successfully:",
-                data
-            );
-
 
             alert(
                 "Profile Submitted Successfully!"
             );
 
-
             navigate("/dashboard");
 
-
         } catch (error) {
-
-            console.error(
-                "Could not connect to backend:",
-                error
-            );
-
-
             alert(
                 "Could not connect to the server. Please make sure the backend is running."
             );
-
         }
-
     };
-
 
     // =====================================================
     // STEP INFORMATION
     // =====================================================
 
     const stepInformation = {
-
         1: {
             title: "Tell us about yourself",
             description:
@@ -737,14 +592,10 @@ const StudentProfile = () => {
             description:
                 "Your skills, hobbies and goals help Magellan personalize your path.",
         },
-
     };
 
-
     return (
-
         <div className="student-profile-page">
-
 
             {/* ================================================= */}
             {/* TOP PROGRESS INDICATOR */}
@@ -755,7 +606,6 @@ const StudentProfile = () => {
                 <div className="progress-header">
 
                     <div className="progress-steps">
-
 
                         {/* PERSONAL PROFILE */}
 
@@ -770,9 +620,7 @@ const StudentProfile = () => {
                         >
 
                             <div className="circle">
-
                                 <PersonalProfileIcon />
-
                             </div>
 
                             <button type="button">
@@ -780,7 +628,6 @@ const StudentProfile = () => {
                             </button>
 
                         </div>
-
 
                         {/* INTERESTS */}
 
@@ -795,9 +642,7 @@ const StudentProfile = () => {
                         >
 
                             <div className="circle">
-
                                 <InterestsIcon />
-
                             </div>
 
                             <button type="button">
@@ -805,7 +650,6 @@ const StudentProfile = () => {
                             </button>
 
                         </div>
-
 
                         {/* SKILLS AND GOALS */}
 
@@ -818,9 +662,7 @@ const StudentProfile = () => {
                         >
 
                             <div className="circle">
-
                                 <SkillsGoalsIcon />
-
                             </div>
 
                             <button type="button">
@@ -831,7 +673,6 @@ const StudentProfile = () => {
 
                     </div>
 
-
                     <div className="progress-info">
 
                         <span>
@@ -840,13 +681,13 @@ const StudentProfile = () => {
 
                     </div>
 
-
                     <div className="progress-track">
 
                         <div
                             className="progress-fill"
                             style={{
-                                width: `${((step - 1) / 2) * 100}%`
+                                width:
+                                    `${((step - 1) / 2) * 100}%`,
                             }}
                         />
 
@@ -856,13 +697,11 @@ const StudentProfile = () => {
 
             </div>
 
-
             {/* ================================================= */}
             {/* CONTENT */}
             {/* ================================================= */}
 
             <div className="profile-content">
-
 
                 {/* ================================================= */}
                 {/* STEP HEADING */}
@@ -886,7 +725,6 @@ const StudentProfile = () => {
 
                     </div>
 
-
                     {/* ================================================= */}
                     {/* STEP 1 */}
                     {/* ================================================= */}
@@ -894,7 +732,6 @@ const StudentProfile = () => {
                     {step === 1 && (
 
                         <div className="personal-section">
-
 
                             <div className="form-row">
 
@@ -917,7 +754,6 @@ const StudentProfile = () => {
                                     />
 
                                 </div>
-
 
                                 <div className="input-group">
 
@@ -942,7 +778,6 @@ const StudentProfile = () => {
                                 </div>
 
                             </div>
-
 
                             <div className="form-row">
 
@@ -986,7 +821,6 @@ const StudentProfile = () => {
 
                                 </div>
 
-
                                 <div className="input-group">
 
                                     <label>
@@ -1026,7 +860,6 @@ const StudentProfile = () => {
 
                             </div>
 
-
                             <div className="form-row">
 
                                 <div className="input-group">
@@ -1048,7 +881,6 @@ const StudentProfile = () => {
                                     />
 
                                 </div>
-
 
                                 <div className="input-group">
 
@@ -1157,7 +989,6 @@ const StudentProfile = () => {
 
                             </div>
 
-
                             <div className="form-row center-row">
 
                                 <div className="input-group board-group">
@@ -1202,7 +1033,6 @@ const StudentProfile = () => {
 
                             </div>
 
-
                             <div className="button-container">
 
                                 <button
@@ -1220,7 +1050,6 @@ const StudentProfile = () => {
                         </div>
 
                     )}
-
 
                     {/* ================================================= */}
                     {/* STEP 2 */}
@@ -1269,7 +1098,6 @@ const StudentProfile = () => {
 
                                 </div>
 
-
                                 <div className="input-group">
 
                                     <label>
@@ -1309,7 +1137,6 @@ const StudentProfile = () => {
 
                             </div>
 
-
                             <div className="navigation-buttons">
 
                                 <button
@@ -1335,7 +1162,6 @@ const StudentProfile = () => {
 
                     )}
 
-
                     {/* ================================================= */}
                     {/* STEP 3 */}
                     {/* ================================================= */}
@@ -1343,7 +1169,6 @@ const StudentProfile = () => {
                     {step === 3 && (
 
                         <div className="skills-section">
-
 
                             <div className="skill-block">
 
@@ -1401,7 +1226,6 @@ const StudentProfile = () => {
 
                             </div>
 
-
                             <div className="skill-block">
 
                                 <h3>
@@ -1457,7 +1281,6 @@ const StudentProfile = () => {
                                 />
 
                             </div>
-
 
                             <div className="skill-block">
 
@@ -1515,7 +1338,6 @@ const StudentProfile = () => {
 
                             </div>
 
-
                             <div className="skill-block career-goal-block">
 
                                 <h3>
@@ -1552,7 +1374,6 @@ const StudentProfile = () => {
 
                                 </select>
 
-
                                 {careerData.career_goal_decided === "Yes" && (
 
                                     <select
@@ -1588,7 +1409,6 @@ const StudentProfile = () => {
                                 )}
 
                             </div>
-
 
                             <div className="skill-block">
 
@@ -1628,7 +1448,6 @@ const StudentProfile = () => {
 
                             </div>
 
-
                             <div className="navigation-buttons">
 
                                 <button
@@ -1650,7 +1469,6 @@ const StudentProfile = () => {
 
                             </div>
 
-
                         </div>
 
                     )}
@@ -1660,10 +1478,7 @@ const StudentProfile = () => {
             </div>
 
         </div>
-
     );
-
 };
-
 
 export default StudentProfile;
