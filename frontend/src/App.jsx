@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Landingpage from "./pages/landingpage/Landingpage";
+import ProtectedRoute from "./ProtectedRoute";
 import Accountcreated from "./pages/accountcreated/Accountcreated";
 import Signup from "./pages/signuppage/Signup";
 import Login from "./pages/loginpage/Login";
@@ -64,8 +65,12 @@ return (
 
       <Route
         path="/dashboard"
-        element={<Dashboard />}
-      />
+        element={
+  <ProtectedRoute>
+      <Dashboard />
+    </ProtectedRoute>
+  }
+/>
 
       <Route
         path="/software-developer"
