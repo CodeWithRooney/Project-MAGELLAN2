@@ -1,5 +1,3 @@
-import os
-
 from sqlalchemy.orm import Session
 
 from exceptions import (
@@ -39,8 +37,8 @@ def register_user(
     """
     Register a new user.
 
-    The account is created as unverified and a
-    verification email is sent to the user's email.
+    The account is created as unverified and a verification
+    email is sent to the user's email.
 
     No access token is issued during registration.
     """
@@ -82,7 +80,7 @@ def register_user(
         verification_token=verification_token,
     )
 
-    # Do NOT create an access token here.
+    # No access token is created here.
     # The user must verify their email before logging in.
 
     return RegisterResponse(
@@ -102,34 +100,27 @@ def login_user(
     """
     Authenticate a user and return an access token.
 
-    The user's email must be verified before
-    an access token is issued.
+    The user's email must be verified before an access
+    token is issued.
 
-    The response also tells the frontend whether
-    the user has already completed their profile.
+    The response also tells the frontend whether the user
+    has already completed their student profile.
     """
 
     # Normalize email
     normalized_email = str(user.email).strip().lower()
 
-    print("LOGIN EMAIL:", repr(normalized_email))
-    print(
-    "DATABASE:",
-    os.getenv("DATABASE_URL", "").split("/")[-1]
-)
-
     # Find user
     existing_user = (
-    db.query(User)
-    .filter(User.email == normalized_email)
-    .first()
-)
+        db.query(User)
+        .filter(User.email == normalized_email)
+        .first()
+    )
 
-    print("USER FOUND:", existing_user is not None)
-
-    if existing_user:
-        print("USER ID:", existing_user.id)
-        print("USER EMAIL:", repr(existing_user.email))
+    if not existing_user:
+        raise UserNotFoundError(
+            "User not found."
+        )
 
     # Verify password
     if not verify_password(
@@ -147,7 +138,7 @@ def login_user(
         )
 
     # Check whether the user has completed
-    # their student profile.
+    # their student profile
     profile_completed = (
         existing_user.profile is not None
     )
@@ -161,7 +152,7 @@ def login_user(
     )
 
     # Return authentication information
-    # together with profile completion status.
+    # together with profile completion status
     return AuthResponse(
         access_token=access_token,
         token_type="bearer",
