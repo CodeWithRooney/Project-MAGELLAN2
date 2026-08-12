@@ -8,9 +8,7 @@ import {
   SendHorizontal,
 } from "lucide-react";
 
-
 const Chatbot = () => {
-
   const [open, setOpen] = useState(false);
 
   const [messages, setMessages] = useState([]);
@@ -22,24 +20,19 @@ const Chatbot = () => {
   // Used to automatically scroll to the latest message
   const chatBodyRef = useRef(null);
 
-
   // =====================================================
   // SUGGESTED QUESTIONS
   // =====================================================
 
   const getSuggestedQuestions = () => {
-
     if (messages.length === 0) {
-
       return [
         "What careers might suit me?",
         "What skills should I develop?",
         "What should I study next?",
         "How can I explore different careers?",
       ];
-
     }
-
 
     const lastUserMessage = [...messages]
       .reverse()
@@ -48,36 +41,28 @@ const Chatbot = () => {
           message.role === "user"
       );
 
-
     if (!lastUserMessage) {
-
       return [
         "What careers might suit me?",
         "What skills should I develop?",
         "How can I explore different careers?",
       ];
-
     }
-
 
     const question =
       lastUserMessage.message.toLowerCase();
-
 
     if (
       question.includes("career") ||
       question.includes("job")
     ) {
-
       return [
         "What skills are useful for this career?",
         "What does the career path look like?",
         "What are the advantages and challenges?",
         "What related careers should I explore?",
       ];
-
     }
-
 
     if (
       question.includes("skill") ||
@@ -85,32 +70,26 @@ const Chatbot = () => {
       question.includes("coding") ||
       question.includes("programming")
     ) {
-
       return [
         "Which skill should I learn first?",
         "How can I improve my programming skills?",
         "What projects should I build?",
         "How can I practise these skills?",
       ];
-
     }
-
 
     if (
       question.includes("study") ||
       question.includes("college") ||
       question.includes("school")
     ) {
-
       return [
         "What should I focus on academically?",
         "Which subjects should I strengthen?",
         "What skills should I develop alongside my studies?",
         "How can I prepare for my future career?",
       ];
-
     }
-
 
     if (
       question.includes("scholarship") ||
@@ -118,16 +97,13 @@ const Chatbot = () => {
       question.includes("olympiad") ||
       question.includes("internship")
     ) {
-
       return [
         "What opportunities should I look for?",
         "How can I improve my profile?",
         "What should I prepare before applying?",
         "How can these opportunities help my career?",
       ];
-
     }
-
 
     return [
       "What career options should I explore?",
@@ -135,16 +111,13 @@ const Chatbot = () => {
       "How can I improve my profile?",
       "What should I focus on next?",
     ];
-
   };
-
 
   // =====================================================
   // SCROLL TO LATEST MESSAGE
   // =====================================================
 
   const scrollToBottom = () => {
-
     if (!chatBodyRef.current) {
       return;
     }
@@ -153,29 +126,23 @@ const Chatbot = () => {
       top: chatBodyRef.current.scrollHeight,
       behavior: "smooth",
     });
-
   };
-
 
   // =====================================================
   // LOAD CHAT HISTORY
   // =====================================================
 
   const loadChatHistory = async () => {
-
     const token =
       localStorage.getItem(
         "access_token"
       );
 
-
     if (!token) {
       return;
     }
 
-
     try {
-
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/chat/history`,
         {
@@ -187,9 +154,7 @@ const Chatbot = () => {
         }
       );
 
-
       if (!response.ok) {
-
         console.error(
           "Could not load chat history."
         );
@@ -197,90 +162,87 @@ const Chatbot = () => {
         return;
       }
 
-
       const data = await response.json();
 
-
-      if (data.messages) {
-
+      if (
+        data.messages &&
+        data.messages.length > 0
+      ) {
         setMessages(data.messages);
-
+      } else {
+        setMessages([
+          {
+            role: "assistant",
+            message:
+              "Welcome to Magellan AI! I’m here to help you explore careers, understand what you should learn, and plan your next steps. What would you like to know?",
+          },
+        ]);
       }
-
     } catch (error) {
-
       console.error(
         "Could not connect to chat history:",
         error
       );
 
+      // Show the welcome message even if
+      // chat history is unavailable.
+      setMessages([
+        {
+          role: "assistant",
+          message:
+            "Welcome to Magellan AI! I’m here to help you explore careers, understand what you should learn, and plan your next steps. What would you like to know?",
+        },
+      ]);
     }
-
   };
-
 
   // =====================================================
   // OPEN CHAT
   // =====================================================
 
   useEffect(() => {
-
     if (open) {
-
       loadChatHistory();
-
     }
-
   }, [open]);
-
 
   // =====================================================
   // ALWAYS SCROLL TO LATEST MESSAGE
   // =====================================================
 
   useEffect(() => {
-
     if (open) {
-
       // Small delay allows the messages to render first
       const timer = setTimeout(() => {
         scrollToBottom();
       }, 100);
 
       return () => clearTimeout(timer);
-
     }
-
   }, [
     messages,
     loading,
     open,
   ]);
 
-
   // =====================================================
   // SEND MESSAGE
   // =====================================================
 
   const sendMessage = async (messageText) => {
-
     const message =
       messageText.trim();
-
 
     if (!message || loading) {
       return;
     }
-
 
     const token =
       localStorage.getItem(
         "access_token"
       );
 
-
     if (!token) {
-
       console.error(
         "No access token found."
       );
@@ -288,14 +250,11 @@ const Chatbot = () => {
       return;
     }
 
-
     // Add user message immediately
-
     const userMessage = {
       role: "user",
       message: message,
     };
-
 
     setMessages(
       (previousMessages) => [
@@ -304,14 +263,11 @@ const Chatbot = () => {
       ]
     );
 
-
     setInput("");
 
     setLoading(true);
 
-
     try {
-
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/chat/`,
         {
@@ -330,20 +286,16 @@ const Chatbot = () => {
         }
       );
 
-
       const data =
         await response.json();
 
-
       if (!response.ok) {
-
         const errorMessage = {
           role: "assistant",
           message:
             data.detail ||
             "Sorry, I could not generate a response.",
         };
-
 
         setMessages(
           (previousMessages) => [
@@ -355,14 +307,11 @@ const Chatbot = () => {
         return;
       }
 
-
       // Add AI response
-
       const assistantMessage = {
         role: "assistant",
         message: data.response,
       };
-
 
       setMessages(
         (previousMessages) => [
@@ -370,14 +319,11 @@ const Chatbot = () => {
           assistantMessage,
         ]
       );
-
     } catch (error) {
-
       console.error(
         "Chat request failed:",
         error
       );
-
 
       const errorMessage = {
         role: "assistant",
@@ -385,64 +331,47 @@ const Chatbot = () => {
           "Magellan AI is temporarily unavailable. Please try again in a moment.",
       };
 
-
       setMessages(
         (previousMessages) => [
           ...previousMessages,
           errorMessage,
         ]
       );
-
     } finally {
-
       setLoading(false);
-
     }
-
   };
-
 
   // =====================================================
   // INPUT
   // =====================================================
 
   const handleInputChange = (event) => {
-
     setInput(event.target.value);
-
   };
-
 
   // =====================================================
   // SEND BUTTON
   // =====================================================
 
   const handleSend = () => {
-
     sendMessage(input);
-
   };
-
 
   // =====================================================
   // ENTER KEY
   // =====================================================
 
   const handleKeyDown = (event) => {
-
     if (
       event.key === "Enter" &&
       !event.shiftKey
     ) {
-
       event.preventDefault();
 
       handleSend();
-
     }
-
   };
-
 
   // =====================================================
   // SUGGESTED QUESTION
@@ -451,15 +380,11 @@ const Chatbot = () => {
   const handleSuggestedQuestion = (
     question
   ) => {
-
     sendMessage(question);
-
   };
-
 
   const suggestedQuestions =
     getSuggestedQuestions();
-
 
   // =====================================================
   // JSX
@@ -467,7 +392,6 @@ const Chatbot = () => {
 
   return (
     <>
-
       {/* =================================================
           FLOATING BUTTON
           ================================================= */}
@@ -483,15 +407,12 @@ const Chatbot = () => {
             : "Open Magellan AI"
         }
       >
-
         {open ? (
           <X size={28} />
         ) : (
           <Bot size={28} />
         )}
-
       </button>
-
 
       {/* =================================================
           CHAT WINDOW
@@ -502,24 +423,17 @@ const Chatbot = () => {
           open ? "show" : ""
         }`}
       >
-
         {/* =================================================
             HEADER
             ================================================= */}
 
         <div className="chat-header">
-
           <div className="chat-title">
-
             <div className="bot-circle">
-
               <Bot size={24} />
-
             </div>
 
-
             <div>
-
               <h3>
                 MAGELLAN AI
               </h3>
@@ -527,13 +441,9 @@ const Chatbot = () => {
               <p>
                 Always Online
               </p>
-
             </div>
-
           </div>
-
         </div>
-
 
         {/* =================================================
             CHAT BODY
@@ -543,14 +453,12 @@ const Chatbot = () => {
           className="chat-body"
           ref={chatBodyRef}
         >
-
           {/* =================================================
               MESSAGES
               ================================================= */}
 
           {messages.map(
             (message, index) => (
-
               <div
                 key={index}
                 className={
@@ -559,62 +467,45 @@ const Chatbot = () => {
                     : "bot-message"
                 }
               >
-
                 {message.role ===
                 "assistant" ? (
-
                   <ReactMarkdown>
                     {message.message}
                   </ReactMarkdown>
-
                 ) : (
-
                   message.message
-
                 )}
-
               </div>
-
             )
           )}
-
 
           {/* =================================================
               LOADING
               ================================================= */}
 
           {loading && (
-
             <div className="typing">
-
               <span></span>
               <span></span>
               <span></span>
-
             </div>
-
           )}
-
 
           {/* =================================================
               SUGGESTED QUESTIONS
               ================================================= */}
 
           {!loading && (
-
             <div className="suggested-questions">
-
               <p>
                 You can ask me
               </p>
-
 
               {suggestedQuestions.map(
                 (
                   question,
                   index
                 ) => (
-
                   <button
                     key={index}
                     className="suggested-question"
@@ -624,27 +515,19 @@ const Chatbot = () => {
                       )
                     }
                   >
-
                     {question}
-
                   </button>
-
                 )
               )}
-
             </div>
-
           )}
-
         </div>
-
 
         {/* =================================================
             FOOTER
             ================================================= */}
 
         <div className="chat-footer">
-
           <input
             type="text"
             value={input}
@@ -658,7 +541,6 @@ const Chatbot = () => {
             disabled={loading}
           />
 
-
           <button
             onClick={handleSend}
             disabled={
@@ -667,18 +549,12 @@ const Chatbot = () => {
             }
             aria-label="Send message"
           >
-
             <SendHorizontal size={20} />
-
           </button>
-
         </div>
-
       </div>
-
     </>
   );
 };
-
 
 export default Chatbot;
