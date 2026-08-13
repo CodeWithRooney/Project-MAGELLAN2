@@ -157,6 +157,7 @@ Use AI assisted guidance to support career exploration, recommendations, and pla
 
 ## Project Structure
 
+```text
 Project-MAGELLAN2/
 │
 ├── backend/
@@ -194,6 +195,7 @@ Project-MAGELLAN2/
 │
 ├── .gitignore
 └── README.md
+```
 
 ---
 
