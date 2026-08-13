@@ -119,6 +119,16 @@ Use AI assisted guidance to support career exploration, recommendations, and pla
 ### Database
 
 - PostgreSQL
+- SQLAlchemy
+- Alembic
+
+### Frontend 
+
+- React.js
+- Lucide React
+- Vite
+- Tailwind CSS
+- ReactRouter
 
 ### Development Tools
 
@@ -171,7 +181,7 @@ When the backend is running locally:
 ### Clone the Repository
 
     git clone <repository-url>
-    cd Project-Magellan
+    cd Project-Magellan2
 
 ### Backend Setup
 
@@ -192,24 +202,56 @@ Install the required dependencies:
 
     pip install -r requirements.txt
 
+### Frontend Setup
+
+Navigate to the frontend directory.
+
+    cd frontend
+
+Install the required dependencies.
+
+    npm install
+
+Start the development server.
+
+    npm run dev
+
+The frontend will then be available at `http://localhost:5173`.
+
 ### Environment Variables
 
 Create a `.env` file and configure the required environment variables.
 
-These may include:
+These include:
 
 - Database connection details
 - JWT configuration
 - Secret keys
+- Frontend URL
+- Brevo email configuration 
 - Other application settings
 
-Do not commit sensitive credentials or secret keys to the repository.
+### Security
 
-### Run the Backend
+Do not commit the `.env` file or expose API keys, database credentials, JWT secrets, or other sensitive configuration values.
 
+Use environment variables provided by the deployment platform for production configuration.
+
+### Run the Full Application
+
+Start the backend and frontend development servers separately.
+
+Backend
+
+    cd backend
     python -m uvicorn main:app --reload
 
-The API documentation will then be available at `/docs`.
+Frontend
+
+    cd frontend
+    npm run dev
+
+The frontend communicates with the FastAPI backend through the configured API URL.
 
 ---
 
@@ -239,6 +281,13 @@ Future versions of Magellan may include:
 - Expanded scholarship and funding databases
 - Expanded competition and internship databases
 - Integration with additional educational resources
+- Live mentors and career counsellors
+- Mentor matching based on career interests and goals
+- One to one career counselling sessions
+- Parent and mentor dashboards for collaborative guidance
+- AI assisted preparation for interviews, entrance exams and applications
+- Real time opportunity and deadline updates
+- Peer communities for students with similar career interests
 
 ---
 
@@ -258,7 +307,7 @@ Our long term goal is to help students move from uncertainty about their future 
 | Rajdip | Frontend Development |
 | Ananyaa | Frontend Development |
 | Ritikarsh | Database Design and Management |
-| Team | Project Management, Product Development, Testing and Documentation |
+| Team | Project Management, Product Development, Testing and Documentation, Product Deployment|
 
 ---
 
