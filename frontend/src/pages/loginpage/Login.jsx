@@ -124,7 +124,6 @@ const Login = () => {
             const data = await response.json();
 
             if (!response.ok) {
-
                 if (
                     response.status === 401 ||
                     response.status === 404
@@ -150,26 +149,26 @@ const Login = () => {
 
             console.log("Login successful:", data);
 
-localStorage.setItem(
-    "access_token",
-    data.access_token
-);
+            localStorage.setItem(
+                "access_token",
+                data.access_token
+            );
 
-localStorage.setItem(
-    "user_id",
-    data.user_id
-);
+            localStorage.setItem(
+                "user_id",
+                data.user_id
+            );
 
-localStorage.setItem(
-    "user_email",
-    data.email
-);
+            localStorage.setItem(
+                "user_email",
+                data.email
+            );
 
-if (data.profile_completed) {
-    navigate("/dashboard");
-} else {
-    navigate("/studentprofile");
-}
+            if (data.profile_completed) {
+                navigate("/dashboard");
+            } else {
+                navigate("/studentprofile");
+            }
 
         } catch (error) {
             console.error(
@@ -294,13 +293,37 @@ if (data.profile_completed) {
                     </p>
                 )}
 
-                {/* ================= LOGIN BUTTON ================= */}
+                {/* ================= LOGIN BUTTON + NOTE ================= */}
 
-                <button
-                    type="submit"
-                >
-                    LOGIN
-                </button>
+                <div className="login-action-area">
+
+                    <button
+                        type="submit"
+                    >
+                        LOGIN
+                    </button>
+
+                    <div className="login-request-note">
+                        <span className="login-note-icon">
+                            i
+                        </span>
+
+                        <div>
+                            <strong>
+                                Please wait a moment.
+                            </strong>
+
+                            <p>
+                                The first request may take a little longer.
+                            </p>
+
+                            <p>
+                                If it doesn't respond, please try again.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
 
             </form>
 

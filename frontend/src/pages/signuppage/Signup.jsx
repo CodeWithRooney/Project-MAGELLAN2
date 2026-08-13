@@ -93,7 +93,10 @@ const Signup = () => {
             [name]: value,
         }));
 
-        if (name === "password" || name === "confirmPassword") {
+        if (
+            name === "password" ||
+            name === "confirmPassword"
+        ) {
             setConfirmPasswordError(false);
         }
 
@@ -103,7 +106,10 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (formData.password !== formData.confirmPassword) {
+        if (
+            formData.password !==
+            formData.confirmPassword
+        ) {
             setConfirmPasswordError(true);
             return;
         }
@@ -131,7 +137,10 @@ const Signup = () => {
             const data = await response.json();
 
             if (!response.ok) {
-                console.error("Registration failed:", data);
+                console.error(
+                    "Registration failed:",
+                    data
+                );
 
                 if (response.status === 409) {
                     setServerError(
@@ -143,14 +152,18 @@ const Signup = () => {
                     );
                 } else {
                     setServerError(
-                        data.detail || "Registration failed."
+                        data.detail ||
+                        "Registration failed."
                     );
                 }
 
                 return;
             }
 
-            console.log("Registration successful:", data);
+            console.log(
+                "Registration successful:",
+                data
+            );
 
             navigate("/accountcreated", {
                 state: {
@@ -177,10 +190,12 @@ const Signup = () => {
             {/* ================= LOGO ================= */}
 
             <div className="signup-logo">
+
                 <img
                     src="/images/logo.svg"
                     alt="MAGELLAN Logo"
                 />
+
             </div>
 
             {/* ================= BACKGROUND ================= */}
@@ -323,11 +338,39 @@ const Signup = () => {
                     </p>
                 )}
 
-                {/* ================= CREATE ACCOUNT ================= */}
+                {/* ================= CREATE ACCOUNT BUTTON + NOTE ================= */}
 
-                <button type="submit">
-                    CREATE ACCOUNT
-                </button>
+                <div className="signup-action-area">
+
+                    <button
+                        type="submit"
+                    >
+                        CREATE ACCOUNT
+                    </button>
+
+                    <div className="signup-request-note">
+
+                        <span className="signup-note-icon">
+                            i
+                        </span>
+
+                        <div>
+                            <strong>
+                                Please wait a moment.
+                            </strong>
+
+                            <p>
+                                The first request may take a little longer.
+                            </p>
+
+                            <p>
+                                If it doesn't respond, please try again.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
 
             </form>
 
