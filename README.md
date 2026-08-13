@@ -112,8 +112,6 @@ Use AI assisted guidance to support career exploration, recommendations, and pla
 - FastAPI
 - Pydantic
 - PostgreSQL
-- JWT
-- Password hashing
 - Uvicorn
 
 ### Database
@@ -130,6 +128,25 @@ Use AI assisted guidance to support career exploration, recommendations, and pla
 - Tailwind CSS
 - ReactRouter
 
+### Authentication 
+
+- JWT
+- Argon2 password hashing through the configured password library
+
+### AI
+
+- Google Gemini API
+
+### Email
+
+- Brevo email API
+
+### Deployment 
+
+- Vercel
+- Render
+- Render PostgreSQL 
+
 ### Development Tools
 
 - Git
@@ -140,22 +157,43 @@ Use AI assisted guidance to support career exploration, recommendations, and pla
 
 ## Project Structure
 
-    Project-Magellan/
-    │
-    ├── backend/
-    │   ├── main.py
-    │   ├── routers/
-    │   ├── schemas/
-    │   ├── services/
-    │   └── utils/
-    │
-    ├── frontend/
-    │
-    ├── database/
-    │
-    ├── docs/
-    │
-    └── README.md
+Project-MAGELLAN2/
+│
+├── backend/
+│   ├── main.py
+│   ├── models/
+│   ├── routers/
+│   ├── schemas/
+│   ├── services/
+│   ├── utils/
+│   ├── database/
+│   ├── migrations/
+│   ├── requirements.txt
+│   └── ...
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── App.jsx
+│   │   ├── ProtectedRoute.jsx
+│   │   └── ...
+│   ├── public/
+│   ├── package.json
+│   ├── package-lock.json
+│   └── vercel.json
+│
+├── docs/
+│   ├── architecture.md
+│   ├── api.md
+│   ├── authentication.md
+│   ├── database.md
+│   ├── development.md
+│   ├── features.md
+│   └── setup.md
+│
+├── .gitignore
+└── README.md
 
 ---
 
@@ -181,7 +219,7 @@ When the backend is running locally:
 ### Clone the Repository
 
     git clone <repository-url>
-    cd Project-Magellan2
+    cd Project-MAGELLAN2
 
 ### Backend Setup
 
